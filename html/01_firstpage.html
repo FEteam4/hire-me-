@@ -1,0 +1,494 @@
+<!-- 가장 최종 -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게임 시뮬레이션</title>
+    <style>
+      .responsive-gif {
+        max-width: 100%;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        font-family: "GmarketSansMedium";
+        margin: 0;
+        line-height: normal;
+        background-color: black;
+      }
+      @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dongle:wght@700&family=Gugi&display=swap");
+      .responsive-gif {
+        max-width: 100%;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .text-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 150px;
+      }
+
+      svg text {
+        z-index: 100;
+        font-family: "Caveat", cursive;
+        font-size: 10em;
+        fill: transparent;
+        stroke-dasharray: 326px;
+        animation: stroke 1s linear;
+        animation-fill-mode: forwards;
+      }
+      svg text:nth-child(1) {
+        animation-delay: 0s;
+      }
+      svg text:nth-child(2) {
+        animation-delay: 0.5s;
+      }
+      svg text:nth-child(3) {
+        animation-delay: 1s;
+      }
+      svg text:nth-child(4) {
+        animation-delay: 1.5s;
+      }
+      svg text:nth-child(5) {
+        animation-delay: 2s;
+      }
+      svg text:nth-child(6) {
+        animation-delay: 2.5s;
+      }
+      svg text:nth-child(7) {
+        animation-delay: 3s;
+      }
+      svg text:nth-child(8) {
+        animation-delay: 3.5s;
+      }
+      svg text:nth-child(9) {
+        animation-delay: 4s;
+      }
+      svg text:nth-child(10) {
+        animation-delay: 4.5s;
+      }
+      svg text:nth-child(11) {
+        animation-delay: 5s;
+      }
+      svg text:nth-child(12) {
+        animation-delay: 5.5s;
+      }
+      @keyframes stroke {
+        0% {
+          stroke: white;
+          stroke-width: 3px;
+          stroke-dashoffset: 326px;
+        }
+        70% {
+          fill: transparent;
+        }
+        98% {
+          stroke: white;
+          stroke-width: 3px;
+        }
+        100% {
+          fill: white;
+          stroke-dashoffset: 0px;
+        }
+      }
+      .page {
+        /* position: relative; */
+        /* height: 100vh; */
+        /* background-repeat: no-repeat;
+        background-image: url("../image/background/초기화면.png");
+        background-size: auto 100%;
+        background-position: center; */
+        background-image: url("../image/background/ba.gif");
+        background-size: auto 100%;
+        background-position: center;
+        overflow: hidden;
+        text-align: left;
+        color: white;
+        font-family: "GmarketSansMedium";
+      }
+      #gif_bg {
+        /* position: relative; */
+        height: 100vh;
+        /* background-repeat: no-repeat;
+        background-image: url("../image/background/초기화면.png");
+        background-size: auto 100%;
+        background-position: center; */
+        background-image: url("../image/background/ba.gif");
+        background-size: auto 100%;
+        background-position: center;
+        overflow: hidden;
+        text-align: left;
+        color: white;
+        font-family: "GmarketSansMedium";
+      }
+
+      div.container {
+        width: 1600px;
+        margin: auto;
+        font-family: "Gmarket Sans TTF";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .background_wait {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 2560px;
+        height: 1440px;
+        object-fit: cover;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .start-message {
+        position: absolute;
+        bottom: 20vh;
+        left: 50%;
+        transform: translateX(-60%);
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffdd57;
+
+        text-shadow: 3px 3px 6px rgba(255, 255, 255, 0.3);
+        display: flex;
+        gap: 2px;
+        white-space: pre;
+        animation: blink 1.2s infinite ease-in-out;
+      }
+
+      .hidden {
+        opacity: 0;
+        pointer-events: none;
+        display: none;
+      }
+
+      @keyframes floatEffect {
+        0% {
+          transform: translateX(-50%) translateY(0);
+          text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-10px);
+          text-shadow: 4px 4px 15px rgba(44, 136, 211, 0.8);
+        }
+        100% {
+          transform: translateX(-50%) translateY(0);
+          text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+      }
+
+      .title {
+        font-family: "BMEULJIRO";
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 180px;
+        font-weight: bold;
+        text-align: center;
+        color: rgb(235, 229, 229);
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        animation: floatEffect 2s infinite ease-in-out;
+      }
+
+      .character {
+        position: absolute;
+        top: 15%;
+        width: 300px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out, transform 0.5s ease-in-out;
+        cursor: pointer;
+        border: 5px solid transparent;
+        border-radius: 10px;
+      }
+
+      .left {
+        left: 20%;
+      }
+
+      .right {
+        right: 20%;
+      }
+
+      .visible {
+        opacity: 1;
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+      }
+
+      .select-message {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .select-message::after {
+        content: "";
+        display: block;
+        width: 300px;
+        height: 3px;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.8) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        margin: 10px auto 0;
+        filter: blur(2px);
+      }
+
+      .hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @keyframes glowEffect {
+        0% {
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+        100% {
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+      }
+
+      /* 선택을 기다리는 캐릭터 */
+      .character.waiting {
+        animation: glowEffect 1.5s infinite alternate ease-in-out;
+      }
+
+      /* 선택된 캐릭터는 강조 효과 유지 */
+      .character.selected {
+        animation: none;
+        border: 5px solid yellow;
+        box-shadow: 0 0 25px yellow;
+      }
+
+      .input-container {
+        font-family: "GmarketSansMedium";
+        position: absolute;
+        top: 70%; /* 버튼과 겹치지 않도록 위로 조정 */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        font-size: 18px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px 30px;
+        backdrop-filter: blur(10px);
+        border-top: 2px solid rgba(255, 255, 255, 0.7);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+      }
+
+      .input-group {
+        font-family: "GmarketSansMedium";
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      /* 입력 라벨 */
+      .input-group label {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        width: 70px;
+        text-align: right;
+        font-family: "GmarketSansMedium";
+      }
+
+      /* 입력 필드 */
+      .input-group input {
+        font-family: "GmarketSansMedium";
+        padding: 8px;
+        font-size: 16px;
+        border: 2px solid white;
+        border-radius: 6px;
+        outline: none;
+        text-align: center;
+        background: transparent;
+        color: white;
+        width: 150px;
+      }
+
+      /* 확인 버튼 */
+      .start-btn {
+        font-family: "GmarketSansMedium";
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.6) 15%,
+          rgba(0, 0, 0, 0.6) 85%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        border-top: 2px solid rgba(255, 255, 255, 0.7);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .start-btn:hover {
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 15%,
+          rgba(255, 255, 255, 0.3) 85%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        color: white;
+      }
+    </style>
+  </head>
+  <body onclick="startIntro()">
+    <div class="page container" id="gif_bg">
+      <div class="background_wait"></div>
+      <div class="text-wrap" id="title">
+        <svg width="850" height="230" viewBox="0 0 850 230">
+          <text x="0" y="50%">H</text>
+          <text x="90" y="50%">I</text>
+          <text x="160" y="50%">G</text>
+          <text x="240" y="50%">H</text>
+          <text x="330" y="50%">E</text>
+          <text x="400" y="50%">R</text>
+          <text x="550" y="50%">M</text>
+          <text x="670" y="50%">E</text>
+          <text x="750" y="50%">!</text>
+        </svg>
+      </div>
+
+      <div class="start-message" id="startMessage">
+        아무 곳이나 클릭해서 시작하세요!
+      </div>
+
+      <div class="select-message hidden" id="selectMessage">
+        캐릭터를 선택하세요!
+      </div>
+
+      <img
+        src="../image/남자-Photoroom 2.png"
+        class="character left"
+        id="female"
+        onclick="selectCharacter('female')"
+      />
+      <img
+        src="../image/남자-Photoroom 2.png"
+        class="character right"
+        id="male"
+        onclick="selectCharacter('male')"
+      />
+
+      <div class="input-container" id="inputForm">
+        <div class="input-group">
+          <label for="playerName">이름:</label>
+          <input type="text" id="playerName" placeholder="이름을 입력하세요." />
+        </div>
+        <button id="startButton" class="start-btn" onclick="startGame()">
+          시작하기
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let selectedGender = "";
+
+      function startIntro() {
+        document.getElementById("startMessage").classList.add("hidden");
+        document.getElementById("title").classList.add("hidden");
+        document.getElementById("female").classList.add("visible", "waiting");
+        document.getElementById("male").classList.add("visible", "waiting");
+
+        // 캐릭터가 등장할 때 "캐릭터를 선택하세요!" 문구도 함께 표시
+        document.getElementById("selectMessage").classList.remove("hidden");
+        document.body.onclick = null;
+      }
+
+      function selectCharacter(gender) {
+        selectedGender = gender === "female" ? "여성" : "남성";
+
+        document
+          .getElementById("female")
+          .classList.remove("selected", "waiting");
+        document.getElementById("male").classList.remove("selected", "waiting");
+        document.getElementById(gender).classList.add("selected");
+
+        // 캐릭터 선택 후, 입력창과 버튼 표시
+        document.getElementById("inputForm").style.opacity = "1";
+        document.getElementById("inputForm").style.pointerEvents = "auto";
+        document.getElementById("startButton").style.opacity = "1";
+        document.getElementById("startButton").style.pointerEvents = "auto";
+      }
+
+      function startGame() {
+        const name = document.getElementById("playerName").value.trim();
+        if (!name) {
+          alert("이름을 입력하세요!");
+
+          return;
+        }
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+        const userData = {
+          name,
+          gender: selectedGender,
+          stats: {
+            개발능력: clamp(50, 0, 100),
+            코테실력: clamp(50, 0, 100),
+            CS지식: clamp(50, 0, 100),
+            PT능력: clamp(50, 0, 100),
+            외국어: clamp(50, 0, 100),
+            건강: clamp(100, 0, 100),
+          },
+        };
+
+        localStorage.setItem("userData", JSON.stringify(userData));
+        alert("사용자 정보가 저장되었습니다!");
+        // ✅ 페이지 이동
+        window.location.href = "02_start.html";
+      }
+    </script>
+  </body>
+</html>

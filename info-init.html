@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 페이지 규격 , 폰트 */
+      .page {
+        position: relative;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-image: url("/main_repo/image/background/대기화면.png");
+        background-size: auto 100%;
+        background-position: center;
+        overflow: hidden;
+        text-align: left;
+        color: rgba(0, 0, 0, 0);
+        font-family: "Gmarket Sans TTF";
+      }
+
+      /* 대기 화면 */
+      .background_wait {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 2560px;
+        height: 1440px;
+        object-fit: cover;
+      }
+      /* 큰 대화창 */
+      .chat_window {
+        width: 1423px;
+        height: 292px;
+        background: rgba(0, 0, 0, 0.79);
+        box-shadow: 58px 58px 58px;
+        border-radius: 40px;
+        filter: blur(29.35px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page container">
+      <div class="chat_window"></div>
+    </div>
+  </body>
+</html>

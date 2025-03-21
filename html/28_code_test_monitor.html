@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
+    <style>
+      .monitor {
+        width: 800px;
+        height: 470px;
+        display: flex;
+        position: absolute;
+        left: 395px;
+        bottom: 360px;
+      }
+      .menu {
+        width: 20%;
+        height: 100%;
+        padding: 10px;
+        background-color: beige;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .board {
+        width: 80%;
+        height: 100%;
+        padding: 10px;
+        background-color: beige;
+      }
+
+      #blocklyDiv {
+        /* width: 30%; */
+        height: 100%;
+        background-color: azure;
+      }
+
+      #codeOutput {
+        height: 50%;
+        background-color: white;
+      }
+
+      #execute {
+        cursor: pointer;
+        height: 10%;
+        background-color: rgb(250, 185, 64);
+        border-color: rgb(252, 164, 0);
+        border-radius: 10px;
+        text-align: center;
+        align-content: center;
+        font-size: 30px;
+        color: white;
+      }
+
+      .message {
+        height: 40%;
+        margin-top: 10px;
+        background-color: lightblue;
+        border-color: rgb(52, 180, 223);
+        border-radius: 10px;
+      }
+
+      .blocklyBlockBackground {
+        fill: azure;
+        stroke: #000000 !important;
+        stroke-width: 5px !important;
+      }
+      .blocklyText {
+        font-weight: bold;
+      }
+
+      #blocklyDiv {
+        width: 100%;
+        height: 100vh;
+      }
+
+      .blocklyDropDownDiv {
+        position: fixed;
+        left: auto;
+        right: auto;
+        transform: none;
+        top: auto;
+      }
+    </style>
+  </head>
+  <body class="page">
+    <div class="container">
+      <img src="../image/background/채용전형_코테시험화면.png" class="page" />
+      <div class="no-scroll monitor">
+        <div class="menu">
+          <pre id="codeOutput"></pre>
+          <div id="execute">실행하기</div>
+          <div class="message"></div>
+        </div>
+        <div class="board">
+          <div id="blocklyDiv" style="height: 100%"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed"></script>
+    <script src="https://unpkg.com/blockly/msg/en.js"></script>
+    <script src="../script-blockly.js"></script>
+    <script>
+      
+      document.querySelector("#execute").addEventListener("mousedown", () => {
+        location.href =
+          "24_email_toggle3.html";
+      });
+    </script>
+  </body>
+</html>

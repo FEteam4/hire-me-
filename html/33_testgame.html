@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>성향 테스트</title>
+    <style>
+      @font-face {
+        font-family: "GmarketSansMedium";
+        src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "GmarketSansMedium";
+        text-align: center;
+        background-color: #f9f9f9;
+      }
+
+      .quiz-container {
+        font-family: "GmarketSansMedium";
+        width: 500px;
+        max-width: 90%;
+        margin: 60px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .question {
+        font-family: "GmarketSansMedium";
+        font-size: 18px;
+        font-weight: bolder;
+        margin-bottom: 20px;
+      }
+
+      .options {
+        font-family: "GmarketSansMedium";
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .option {
+        font-family: "GmarketSansMedium";
+        padding: 10px;
+        font-size: 15px;
+        font-weight: bolder;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        background: #fff;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      /* ✅ 선택하지 않은 경우 hover 효과 */
+      .options:not(.disabled) .option:hover {
+        background: #f1f1f1;
+      }
+
+      /* ✅ 선택된 버튼 스타일 */
+      .selected {
+        font-family: "GmarketSansMedium";
+        background: #007bff !important;
+        color: white !important;
+        font-weight: bold;
+      }
+
+      /* ✅ 선택한 후에도 hover 방지 */
+      .selected:hover {
+        background: #007bff !important;
+        color: white !important;
+      }
+
+      /* ✅ 선택이 끝난 후 모든 버튼 hover 방지 */
+      .options.disabled .option:hover {
+        background: white;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div id="question" class="question">문제가 여기에 표시됩니다.</div>
+      <div id="options" class="options"></div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "동료가 마감 기한을 넘겼을 때, 나는?",
+          options: [
+            "동료에게 이유를 물어보고 돕는다.",
+            "상황을 파악하고 도울 방법을 찾는다.",
+            "팀장에게 알리고 해결책을 논의한다.",
+            "다음번엔 주의하라고 조언하고 대신 처리한다.",
+          ],
+        },
+        {
+          question: "팀 내에서 의견 충돌이 발생했을 때, 나는?",
+          options: [
+            "서로의 의견을 듣고 중재하며 합의점을 찾는다.",
+            "상황을 고려해 상사의 판단을 따른다.",
+            "내 입장이 맞다고 생각하면 설득을 시도한다.",
+            "굳이 논쟁에 끼지 않고 가만히 있는다.",
+          ],
+        },
+        {
+          question: "예상치 못한 문제가 발생했을 때, 나는?",
+          options: [
+            "팀원들과 함께 해결 방법을 찾는다.",
+            "빠르게 해결한 후 공유하여 진행한다.",
+            "상사나 선배에게 조언을 구한다.",
+            "내 업무와 관련이 없으면 상황을 지켜본다.",
+          ],
+        },
+        {
+          question: "회의 중 내 의견이 무시당했을 때, 나는?",
+          options: [
+            "다시 한번 논리적으로 설명하며 설득한다.",
+            "회의 후 개별적으로 의견을 전달한다.",
+            "중요한 의견이라면 강조하여 다시 말한다.",
+            "별로 신경 쓰지 않고 넘어간다.",
+          ],
+        },
+        {
+          question: "팀원 중 한 명이 일을 제대로 하지 않을 때, 나는?",
+          options: [
+            "조용히 도와주면서 문제를 해결하려고 한다.",
+            "필요하면 피드백을 주고 개선을 유도한다.",
+            "내 역할에 집중하며 상황을 지켜본다.",
+            "팀장이나 리더와 논의하여 해결 방법을 찾는다.",
+          ],
+        },
+        {
+          question: "팀 프로젝트에서 동료가 실수를 했을 때, 나는?",
+          options: [
+            "문제를 해결하고 나중에 따로 피드백한다.",
+            "즉시 함께 해결책을 찾는다.",
+            "직접 해결하기보다 팀장과 논의한다.",
+            "팀의 흐름에 따라 유연하게 대응한다.",
+          ],
+        },
+      ];
+
+      function loadRandomQuestion() {
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+
+        // 랜덤 질문 선택
+        const selectedQuestion =
+          questions[Math.floor(Math.random() * questions.length)];
+
+        // 문제 표시
+        questionEl.innerHTML = `📌 ${selectedQuestion.question}`;
+        optionsEl.innerHTML = ""; // 기존 옵션 초기화
+        optionsEl.classList.remove("disabled"); // hover 효과 복구
+
+        selectedQuestion.options.forEach((option) => {
+          const optionBtn = document.createElement("button");
+          optionBtn.innerText = option;
+          optionBtn.classList.add("option");
+          optionBtn.addEventListener("click", () => selectAnswer(optionBtn));
+          optionsEl.appendChild(optionBtn);
+        });
+      }
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function selectAnswer(button) {
+        const options = document.querySelectorAll(".option");
+        const optionsContainer = document.getElementById("options");
+        // 모든 버튼 비활성화 & 선택 시 스타일 적용
+        options.forEach((opt) => {
+          opt.disabled = true;
+          opt.classList.remove("selected");
+        });
+
+        button.classList.add("selected"); // 선택한 버튼 스타일 적용
+
+        // ✅ 모든 옵션 hover 효과 제거
+        optionsContainer.classList.add("disabled");
+
+        const userDataRaw = localStorage.getItem("userData");
+        const userData = JSON.parse(userDataRaw);
+        const stats = userData.stats;
+        const keysToUpdate = [
+          "CS지식",
+          "코테실력",
+          "건강",
+          "외국어",
+          "개발능력",
+          "PT능력",
+        ];
+        keysToUpdate.forEach((key) => {
+          stats[key] = clamp(stats[key] + 5, 0, 100);
+        });
+        userData.stats = stats;
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
+
+      // ✅ 게임 시작 (랜덤 질문 로드)
+      loadRandomQuestion();
+    </script>
+  </body>
+</html>

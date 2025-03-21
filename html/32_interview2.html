@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
+    <style>
+      .text_container {
+        /* display: none; */
+        position: absolute;
+        width: 84%;
+        height: 340px;
+        left: 6%;
+        bottom: 5px;
+      }
+      .text_context {
+        position: absolute;
+        font-size: 2rem;
+        z-index: 100;
+        color: white;
+        left: 80px;
+        right: 80px;
+        bottom: 0px;
+      }
+      .chat_window {
+        position: absolute;
+        height: 250px;
+        width: 100%;
+        bottom: 100px;
+        background: rgba(0, 0, 0, 0.79);
+        box-shadow: 58px 58px 58px;
+        border-radius: 40px;
+        filter: blur(29.35px);
+      }
+      .character_container {
+        /* display: none; */
+        position: absolute;
+        bottom: 0;
+        left: 15%;
+      }
+      .character {
+        width: auto;
+        height: 650px;
+      }
+      @keyframes blink-effect {
+        50% {
+          opacity: 0;
+        }
+      }
+      .next_button {
+        display: none;
+        position: absolute;
+        right: 20px;
+        bottom: 80px;
+        border-left: 30px solid white;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        cursor: pointer;
+        animation: blink-effect 1s step-end infinite;
+      }
+      .next_button:hover {
+        animation: none;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ✅ 모달 스타일 */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* 모달 크기 조정*/
+      .modal-content {
+        background: white;
+        width: 530px;
+        max-width: 95%;
+        height: 410px;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .close-btn:hover {
+        background: darkred;
+      }
+
+      /* ✅ iframe 스타일 (퀴즈 HTML을 포함) */
+      .quiz-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* .modal {
+        display: none;
+        position: absolute;
+        width: 800px;
+        height: 500px;
+        top: 20px;
+        left: 400px;
+        background-color: white;
+        border-radius: 20px;
+        z-index: 200;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="../image/background/채용전형_2차면접.png" class="page" />
+      <!-- ✅ 모달 구조 -->
+      <div id="quizModal" class="modal">
+        <div class="modal-content">
+          <button class="close-btn" onclick="closeModal()">닫기</button>
+          <iframe class="quiz-frame" src="33_testgame.html"></iframe>
+        </div>
+      </div>
+
+      <div class="character_container">
+        <img src="../image/man/정장남자_대화1.png" class="character" />
+      </div>
+      <div class="text_container">
+        <div class="chat_window"></div>
+        <div class="text_context"></div>
+        <div class="next_button"></div>
+      </div>
+    </div>
+    <script>
+      let index = 0;
+      const speed = 100;
+
+      const show = async (text) => {
+        const context = document.querySelector(".text_context");
+        let index = 0;
+        context.innerHTML = "";
+
+        for (const char of text) {
+          context.innerHTML += char;
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+      };
+
+      const next_button = document.querySelector(".next_button");
+      const character_container = document.querySelector(
+        ".character_container"
+      );
+      const text_container = document.querySelector(".text_container");
+      const modal = document.querySelector(".modal");
+
+      document.addEventListener("DOMContentLoaded", () => {
+        show("2차 면접을 시작합니다.").then(() => {
+          next_button.style.display = "block";
+        });
+      });
+
+      // const openModal = () => {
+      //   character_container.style.display = "none";
+      //   text_container.style.display = "none";
+      //   document.querySelector(".modal").style.display = "block";
+      // };
+
+      // const closeModal = () => {
+      //   character_container.style.display = "block";
+      //   text_container.style.display = "block";
+      //   document.querySelector(".modal").style.display = "none";
+      // };
+
+      const openGame = () => {
+        text_container.style.display = "none";
+        character_container.style.display = "none";
+        openModal();
+      };
+
+      next_button.addEventListener("mousedown", openGame);
+
+      function openModal() {
+        document.getElementById("quizModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        text_container.style.display = "block";
+        document.getElementById("quizModal").style.display = "none";
+      }
+
+      // 지금은 모달 창 누르면 게임 끝이라 가정.
+      modal.addEventListener("mousedown", () => {
+        closeModal();
+        show("수고하셨습니다. 모든 전형이 완료되었습니다.").then(() => {
+          next_button.style.display = "block";
+          next_button.removeEventListener("mousedown", openGame);
+          next_button.addEventListener("mousedown", () => {
+            location.href = "24_email_toggle3.html";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

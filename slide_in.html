@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>캐릭터 슬라이드 인 애니메이션</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        width: 800px;
+        height: 400px;
+        position: relative;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .character {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        transition: all 0.5s ease;
+      }
+
+      .character-circle {
+        width: 100%;
+        height: 100%;
+        background-color: #ff6b6b;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        color: white;
+        font-weight: bold;
+      }
+
+      /* 시작 위치 - 화면 밖 */
+      .slide-from-left {
+        left: -120px;
+        top: 50px;
+      }
+      /* 도착 위치 - 화면 안 */
+      .slide-from-left.active {
+        left: 50px;
+      }
+
+
+      /* 컨트롤 버튼 */
+      .controls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="character slide-from-left">
+        <div class="character-circle">L</div>
+      </div>
+
+      <div class="controls">
+        <button onclick="slideIn()">슬라이드 인</button>
+        <button onclick="slideOut()">슬라이드 아웃</button>
+      </div>
+    </div>
+
+    <script>
+      // 모든 캐릭터 요소
+      const characters = document.querySelectorAll(".character");
+
+      // 슬라이드 인 함수 - 모든 캐릭터를 동시에 화면 안으로
+      function slideIn() {
+        characters.forEach((character) => {
+          character.classList.add("active");
+        });
+      }
+
+      // 슬라이드 아웃 함수 - 모든 캐릭터를 동시에 화면 밖으로
+      function slideOut() {
+        characters.forEach((character) => {
+          character.classList.remove("active");
+        });
+      }
+    </script>
+  </body>
+</html>

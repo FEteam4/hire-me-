@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>입 모양 애니메이션</title>
+    <style>
+      .animated-mouth {
+        position: absolute;
+        top: 200px;
+        left: 200px;
+        width: 1200px;
+        height: 1000px;
+        background-image: url("./image/man/정장남자_대화1.png");
+        background-size: cover;
+        animation: mouth-animation 0.3s infinite alternate;
+      }
+
+      .chat_window {
+        position: absolute;
+        top: 800px;
+        left: 200px;
+        font-size: 24px;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .text-container {
+        display: inline-block;
+        white-space: nowrap;
+        border-right: 2px solid black; /* 타이핑 효과 */
+        padding-right: 5px;
+      }
+
+      @keyframes mouth-animation {
+        0% {
+          background-image: url("./image/man/정장남자_대화1.png");
+        }
+        100% {
+          background-image: url("./image/man/정장남자_대화2.png");
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="animated-mouth"></div>
+      <div class="chat_window">
+        <div class="text-container" id="text"></div>
+      </div>
+    </div>
+
+    <script>
+      const text = "안녕하세요! 시뮬레이션 게임에 오신걸 환영합니다.";
+      let index = 0;
+      const speed = 100; // 글자 나오는 속도 (ms)
+
+      function showText() {
+        if (index < text.length) {
+          document.getElementById("text").innerHTML += text[index];
+          index++;
+          setTimeout(showText, speed);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", showText);
+    </script>
+  </body>
+</html>

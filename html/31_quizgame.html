@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>랜덤 퀴즈 게임</title>
+    <style>
+      @font-face {
+        font-family: "GmarketSansMedium";
+        src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "GmarketSansMedium";
+        text-align: center;
+        background-color: #f9f9f9;
+      }
+
+      .quiz-container {
+        font-family: "GmarketSansMedium";
+        width: 500px;
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .question {
+        font-family: "GmarketSansMedium";
+        font-size: 18px;
+        font-weight: bolder;
+        margin-bottom: 20px;
+      }
+
+      .options {
+        font-family: "GmarketSansMedium";
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .option {
+        font-family: "GmarketSansMedium";
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bolder;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        background: #fff;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      /* ✅ 선택 전에는 hover 가능 */
+      .option:hover {
+        background: #f1f1f1;
+      }
+
+      /* ✅ 선택 후 hover 효과 제거 */
+      .options.disabled .option:hover {
+        background: white !important;
+        cursor: default;
+      }
+
+      .correct {
+        font-family: "GmarketSansMedium";
+        color: green;
+        font-weight: bold;
+      }
+
+      .wrong {
+        font-family: "GmarketSansMedium";
+        color: red;
+        font-weight: bold;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
+
+      .shake {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      #result {
+        font-family: "GmarketSansMedium";
+        font-size: 22px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div id="question" class="question">문제가 여기에 표시됩니다.</div>
+      <div id="options" class="options"></div>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          category: "기술",
+          question: "JavaScript에서 'this' 키워드는 무엇을 가리키나요?",
+          options: [
+            "전역 객체",
+            "호출한 객체",
+            "함수 내부의 지역 변수",
+            "모듈 객체",
+          ],
+          answer: 1,
+        },
+        {
+          category: "알고리즘",
+          question: "시간 복잡도가 가장 효율적인 알고리즘은 무엇인가요?",
+          options: ["선택 정렬", "퀵 정렬", "버블 정렬", "삽입 정렬"],
+          answer: 1,
+        },
+        {
+          category: "데이터베이스",
+          question: "데이터베이스 정규화의 주요 목적은 무엇인가요?",
+          options: [
+            "중복 데이터 제거",
+            "성능 최적화",
+            "데이터 암호화",
+            "트랜잭션 처리",
+          ],
+          answer: 0,
+        },
+        {
+          category: "코딩",
+          question: "코드를 작성할 때 가장 중요한 원칙은 무엇인가요?",
+          options: [
+            "실행 속도 최적화",
+            "가독성",
+            "최소한의 코드 길이",
+            "기능 확장 가능성",
+          ],
+          answer: 1,
+        },
+        {
+          category: "네트워크",
+          question: "HTTP 상태 코드 500은 무엇을 의미하나요?",
+          options: ["클라이언트 오류", "리다이렉트", "서버 오류", "요청 성공"],
+          answer: 2,
+        },
+      ];
+
+      function loadQuestion() {
+        const quizContainer = document.querySelector(".quiz-container");
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const resultEl = document.getElementById("result");
+
+        // 랜덤한 질문 선택
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const selectedQuestion = questions[randomIndex];
+
+        // 문제 표시
+        questionEl.innerHTML = `📌${selectedQuestion.question}`;
+        resultEl.innerHTML = ""; // 이전 결과 초기화
+
+        // 정답 옵션 표시
+        optionsEl.innerHTML = "";
+        optionsEl.classList.remove("disabled"); // ✅ hover 효과 복구
+        selectedQuestion.options.forEach((option, index) => {
+          const optionBtn = document.createElement("button");
+          optionBtn.innerText = `${index + 1}. ${option}`;
+          optionBtn.classList.add("option");
+          optionBtn.setAttribute("data-index", index); // 정답 확인을 위한 인덱스 저장
+          optionBtn.addEventListener("click", () =>
+            checkAnswer(optionBtn, index, selectedQuestion.answer)
+          );
+          optionsEl.appendChild(optionBtn);
+        });
+      }
+
+      function checkAnswer(button, selectedIndex, correctIndex) {
+        const options = document.querySelectorAll(".option");
+        const optionsContainer = document.getElementById("options");
+        const resultEl = document.getElementById("result");
+
+        if (selectedIndex === correctIndex) {
+          button.classList.add("correct");
+          resultEl.innerText = "✅ 정답입니다!";
+          resultEl.style.color = "green";
+          const userDataRaw = localStorage.getItem("userData");
+
+          const userData = JSON.parse(userDataRaw);
+          const stats = userData.stats;
+          stats["PT능력"] += 5;
+          stats["CS지식"] += 5;
+          if (stats["PT능력"] > 100) {
+            stats["PT능력"] = 100;
+          }
+          if (stats["CS지식"] > 100) {
+            stats["CS지식"] = 100;
+          }
+          console.log(stats);
+          userData.stats = stats;
+          localStorage.setItem("userData", JSON.stringify(userData));
+        } else {
+          button.classList.add("wrong", "shake");
+          resultEl.innerText = "❌ 오답입니다! 정답을 확인하세요.";
+          resultEl.style.color = "red";
+
+          // 0.5초 후에 shake 애니메이션 제거 (다시 흔들리지 않도록)
+          setTimeout(() => button.classList.remove("shake"), 500);
+
+          // ✅ 정답을 초록색으로 강조
+          options.forEach((opt) => {
+            if (parseInt(opt.getAttribute("data-index")) === correctIndex) {
+              opt.classList.add("correct");
+            }
+          });
+        }
+
+        // ✅ 모든 버튼 비활성화 및 hover 효과 제거
+        options.forEach((opt) => {
+          opt.disabled = true;
+        });
+        optionsContainer.classList.add("disabled"); // ✅ hover 효과 제거를 위한 클래스 추가
+      }
+
+      // 게임 시작
+      loadQuestion();
+    </script>
+  </body>
+</html>

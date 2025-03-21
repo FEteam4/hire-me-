@@ -1,0 +1,557 @@
+/* 페이지 규격 , 폰트 */
+div.container {
+  width: 1600px;
+  margin: auto;
+  font-family: "Gmarket Sans TTF";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);  
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 배경 화면 */
+img.page {
+  width: 100%;
+  height: auto;
+}
+
+/* 대기 화면 */
+.background_wait {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-left: 100px;
+  margin-right: 100px;
+  width: 100%;
+  object-fit: cover;
+}
+.text_container{
+
+  position: absolute;
+  width: 84%;
+  left: 6%;
+  bottom: 100px;
+}
+.text_context {
+  position: absolute;
+  font-size: 2.5rem;
+  z-index: 100;
+  color: white;
+  top: 50px;
+  left: 50px;
+}
+/* 큰 대화창 */
+.chat_window {
+  height: 250px;
+  background: rgba(0, 0, 0, 0.79);
+  box-shadow: 58px 58px 58px;
+  border-radius: 40px; 
+  filter: blur(29.35px);
+}
+.aside_window {
+  height: 500px;
+  background: rgba(0, 0, 0, 0.79);
+  box-shadow: 58px 58px 58px;
+  border-radius: 40px;
+  filter: blur(29.35px);
+}
+
+/* 큰 대화창 위에 상호작용 키 배경 */
+.button_container{
+  position: absolute;
+  width: 392px;
+  height: 57px;
+  bottom: 350px;
+  left:65%;
+  align-items: end;
+}
+.small_chat_window{
+  height: 57px;
+  background: rgba(0, 0, 0, 0.79);
+  filter: blur(29px);
+}
+/* 마우스 아이콘 */
+.mouse-icon {
+  position: absolute;
+  top: 682px;
+  left: 217px;
+  width: 35.9px;
+  height: 54px;
+}
+/* 상태창 배경 */
+.status_background{
+  width: 289px;
+  height: 246px; 
+  opacity: 0.51; 
+  background: #5FCDFC; 
+  box-shadow: 100px 100px 100px; 
+  border-radius: 50px; 
+  filter: blur(50px)
+}
+/* 큰 상태바 사각형과 이름 적는 칸 두개의 컴포넌트 그대로 쓰시면 됩니다. 나머지 폰트와 프로그레스바는 직접 구현 필요
+<div class="group-inner"><div class="group-child1" ></div></div>  */
+.status_big_bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #5fcdfc;
+  box-sizing: border-box;
+  width: 232px;
+  height: 29.3px;
+}
+.status_name_bar {
+  position: absolute;
+  top: 2.8px;
+  left: 3.49px;
+  border-radius: 50px;
+  background-color: rgba(95, 205, 252, 0.37);
+  width: 51px;
+  height: 23.8px;
+}
+
+
+
+/* 느낌표 exclamation */
+.exclamation_mark1{
+  width: 27px;
+  height: 60px;
+  border-radius: 10px 10px 30px 30px;
+  background: #F00;
+  box-shadow: 0px 4px 10.9px 5px rgba(0, 0, 0, 0.69);
+}
+.exclamation_mark2{
+  width: 24px;
+  height: 25px;
+  border-radius: 25px;
+  background: #F00;
+  box-shadow: 0px 4px 10.9px 5px rgba(0, 0, 0, 0.69);
+}
+
+/* 메일 아이콘 복붙 하시면 됩니다. 
+    <div class="mail_icon">
+      <div class="mail_icon_box"></div>
+      <div class="mail_icon_box_line1"></div>
+      <div class="mail_icon_box_line2"></div>
+      <div class="mail_icon_box_line3"></div>
+      <div class="mail_icon_box_line4"></div>
+      </div>
+          */
+.mail_icon {
+  position: absolute;
+  transform: translateY(500px);
+}
+.mail_icon_box {
+  width: 121.64px; 
+  height: 68.40px; 
+  left: -7px; 
+  top: 110px; 
+  position: absolute; 
+  border: 8px solid black;
+}
+.mail_icon_box_line1 {
+  width: 52.79px; 
+  height: 0px; 
+  left: 18.82px; 
+  top: 134.61px; 
+  position: absolute; 
+  transform: rotate(37deg); 
+  transform-origin: top left; 
+  outline: 8px black solid; 
+  outline-offset: -4px
+}
+.mail_icon_box_line2{
+  width: 52.79px; 
+  height: 0px; 
+  left: 103.28px; 
+  top: 134.61px; 
+  position: absolute; 
+  transform: rotate(143deg); 
+  transform-origin: top left; 
+  outline: 8px black solid; 
+  outline-offset: -4px
+}
+.mail_icon_box_line3{
+  width: 33px; 
+  height: 0px; 
+  left: 19.78px; 
+  top: 171.55px; 
+  position: absolute; 
+  transform: rotate(-30deg); 
+  transform-origin: top left; 
+  outline: 8px black solid; 
+  outline-offset: -4px
+}
+.mail_icon_box_line4{
+  width: 33px; 
+  height: 0px; 
+  left: 70.36px; 
+  top: 155.03px; 
+  position: absolute; 
+  transform: rotate(30deg); 
+  transform-origin: top left; 
+  outline: 8px black solid; 
+  outline-offset: -4px
+}
+
+
+/* 메일 내용(합불) 뜨는 박스와 텍스트 */
+.mail_context{
+  width: 644px; 
+  height: 214.40px; 
+  position: relative; 
+  opacity: 0.93; 
+  box-shadow: 0px 4px 100px white;
+  border-radius: 30px
+}
+.mail_context_bar{
+  width: 644px; 
+  height: 214.40px; 
+  position: absolute; 
+  background: white; 
+  box-shadow: 0px 4px 100px -138px rgba(255, 255, 255, 0.91); 
+  border-radius: 30px
+}
+.mail_context_text{
+  width: 583.09px; 
+  height: 162.42px; 
+  left: 30.86px; 
+  top: 28.42px; 
+  position: absolute; 
+  text-align: center;
+  color: black; 
+  font-size: 40px; 
+  font-family: Gmarket Sans TTF; 
+  font-weight: 700; 
+  word-wrap: break-word"
+}
+
+/* 코딩테스트 모니터 화면 그대로 쓰시면 됩니다. 크기나 위치는 조정 필요
+        <div class="fullscreen_coding">
+          <div class="fullscreen_coding_submit_button"></div>
+          <div class="fullscreen_coding_submit_text"></div>
+        </div>
+        */
+.fullscreen_coding{
+  width: 854px; 
+  height: 545.18px; 
+  position: absolute;
+  background: #263747; 
+  transform: translateY(800px);
+  border-radius: 30px; 
+  border: 25px black solid"
+}
+.fullscreen_coding_submit_button{
+  width: 95px; 
+  height: 28.84px; 
+  left: 703.35px; 
+  top: 477.26px; 
+  position: absolute;
+  background: #3F39DE; 
+  border-radius: 10px
+}
+.fullscreen_coding_submit_text{
+  width: 55.65px; 
+  height: 18.61px; 
+  left: 723.50px; 
+  top: 482.84px; 
+  position: absolute;
+  color: white; 
+  font-size: 14px; 
+  font-family: Gmarket Sans TTF; 
+  font-weight: 500; 
+  word-wrap: break-word"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.photoroom-2-icon {
+  position: absolute;
+  width: 30.95%;
+  top: 228px;
+  right: 33.17%;
+  left: 35.89%;
+  max-width: 100%;
+  overflow: hidden;
+  height: 669px;
+  object-fit: cover;
+}
+
+.group-child {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 40px;
+  width: 1423px;
+  height: 292px;
+  cursor: pointer;
+}
+.group-item {
+  position: absolute;
+  top: 243px;
+  left: 1336px;
+  width: 39px;
+  height: 49px;
+  object-fit: contain;
+}
+.span {
+  color: rgba(0, 0, 0, 0);
+}
+.div3 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-weight: 500;
+  display: inline-block;
+  width: 1382px;
+  height: 177px;
+  opacity: 0;
+}
+.div2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1382px;
+  height: 177px;
+  color: #fff;
+}
+.span1 {
+  color: #fff;
+}
+.div4 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1382px;
+  height: 177px;
+}
+.div1 {
+  position: absolute;
+  height: 60.62%;
+  width: 97.12%;
+  top: 19.52%;
+  right: 1.48%;
+  bottom: 19.86%;
+  left: 1.41%;
+  background-color: rgba(255, 255, 255, 0);
+}
+.vector-parent {
+  position: absolute;
+  top: 563px;
+  left: 98px;
+  width: 1423px;
+  height: 292px;
+}
+.child {
+  position: absolute;
+  top: 512px;
+  left: 1137px;
+  width: 392px;
+  height: 57px;
+}
+.item {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  filter: blur(100px);
+  border-radius: 50px;
+  background-color: #5fcdfc;
+  width: 289px;
+  height: 246px;
+  opacity: 0.51;
+}
+.group-inner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #5fcdfc;
+  box-sizing: border-box;
+  width: 232px;
+  height: 29.3px;
+}
+.rectangle-div {
+  position: absolute;
+  top: 2.8px;
+  left: 58.7px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #5fcdfc;
+  box-sizing: border-box;
+  width: 169.8px;
+  height: 23.8px;
+}
+
+.cs {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  font-weight: 500;
+  display: inline-block;
+  width: 46px;
+  height: 16px;
+}
+.div104 {
+  position: absolute;
+  top: 7px;
+  left: 123px;
+  font-weight: 500;
+  display: inline-block;
+  width: 39px;
+  height: 17px;
+}
+.group-child2 {
+  position: absolute;
+  top: 3px;
+  left: 59px;
+  border-radius: 50px 0px 0px 50px;
+  background-color: rgba(95, 205, 252, 0.69);
+  width: 133px;
+  height: 24px;
+}
+.rectangle-parent {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.rectangle-group {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.div105 {
+  position: absolute;
+  top: 7px;
+  left: 17px;
+  font-weight: 500;
+  display: inline-block;
+  width: 23px;
+  height: 16px;
+}
+.group-child6 {
+  position: absolute;
+  top: 3px;
+  left: 59px;
+  border-radius: 50px 0px 0px 50px;
+  background-color: rgba(95, 205, 252, 0.69);
+  width: 78px;
+  height: 24px;
+}
+.group-parent {
+  position: absolute;
+  top: 150px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.div107 {
+  position: absolute;
+  top: 7px;
+  left: 13px;
+  font-weight: 500;
+  display: inline-block;
+  width: 29px;
+  height: 16px;
+}
+.group-child10 {
+  position: absolute;
+  top: 3px;
+  left: 59px;
+  border-radius: 50px 0px 0px 50px;
+  background-color: rgba(95, 205, 252, 0.69);
+  width: 112px;
+  height: 24px;
+}
+.rectangle-container {
+  position: absolute;
+  top: 120px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.pt {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  font-weight: 500;
+  display: inline-block;
+  width: 34px;
+  height: 16px;
+}
+.group-child14 {
+  position: absolute;
+  top: 3px;
+  left: 59px;
+  border-radius: 50px 0px 0px 50px;
+  background-color: rgba(95, 205, 252, 0.69);
+  width: 48px;
+  height: 24px;
+}
+.group-div {
+  position: absolute;
+  top: 90px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.div110 {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  font-weight: 500;
+  display: inline-block;
+  width: 46px;
+  height: 16px;
+}
+.rectangle-parent1 {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  width: 232px;
+  height: 29.3px;
+}
+.div103 {
+  position: absolute;
+  top: 22px;
+  left: 37px;
+  width: 232px;
+  height: 179.3px;
+}
+.div102 {
+  position: absolute;
+  top: 8px;
+  left: 1289px;
+  width: 289px;
+  height: 246px;
+  font-size: 10px;
+  color: #000;
+}
+.div114 {
+  position: absolute;
+  top: 542px;
+  left: 1180px;
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  white-space: pre-wrap;
+  display: inline-block;
+  width: 293px;
+  height: 62px;
+}

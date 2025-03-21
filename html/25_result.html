@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
+    <style>
+      @font-face {
+        font-family: "GmarketSansMedium";
+        src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "GmarketSansMedium";
+        margin: 0;
+        line-height: normal;
+        background-color: black;
+      }
+      .page {
+        position: relative;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-image: url("../image/background/대기화면.png");
+        background-size: auto 100%;
+        background-position: center;
+        overflow: hidden;
+        text-align: left;
+        color: rgba(0, 0, 0, 0);
+        font-family: "GmarketSansMedium";
+      }
+
+      /* 대기 화면 */
+      .background_wait {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 2560px;
+        height: 1440px;
+        object-fit: cover;
+      }
+
+      /* 캐릭터 이미지 - 크기를 고정하여 합격/불합격과 상관없이 동일하게 표시 */
+      .person-image {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5; /* 캐릭터가 배경보다 위 */
+        height: 60vh; /* 고정 높이 설정 (필요에 따라 조절) */
+        width: auto;
+      }
+
+      /* 결과 텍스트 박스 */
+      .mail_context {
+        /* 메시지 박스를 화면 위쪽 중앙에 배치 */
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 200px;
+        opacity: 0.93;
+        box-shadow: 0px 4px 100px white;
+        border-radius: 30px;
+      }
+      .mail_context_bar {
+        width: 644px;
+        height: 214.4px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 4px 100px -138px rgba(255, 255, 255, 0.91);
+        border-radius: 30px;
+      }
+      .mail_context_text {
+        width: 583.09px;
+        height: 162.42px;
+        position: absolute;
+        left: 30.86px;
+        top: 28.42px;
+        text-align: center;
+        color: black;
+        font-size: 40px;
+        font-weight: 700;
+        word-wrap: break-word;
+      }
+
+      /* 삼각형 버튼 */
+      .next-button {
+        position: absolute;
+        right: 70px;
+        bottom: 50px;
+        width: 0;
+        height: 0;
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+        border-left: 50px solid #fff; /* 화살표 색상 */
+        cursor: pointer;
+        z-index: 40;
+      }
+      .next-button:hover {
+        opacity: 0.8;
+      }
+      /* 상태창 토글 버튼과 상태창을 감싸는 컨테이너 (우측 상단 고정) */
+      .status-toggle-wrapper {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 50;
+        text-align: right;
+      }
+      /* 2) Flex 컨테이너 설정 */
+      .toggle-container {
+        display: inline-flex; /* inline-flex로 한 줄에서 수평 배치 */
+        align-items: center; /* 수직 가운데 정렬 */
+        gap: 8px; /* 텍스트와 토글 사이 간격 */
+      }
+
+      /* 토글 텍스트 스타일 */
+      .toggle-text {
+        font-size: 1.3rem;
+        color: white;
+        /* 필요 시 line-height, margin 조정 가능 */
+      }
+
+      /* 나머지 토글 스타일 (예시) */
+      .toggle-switch {
+        display: inline-block;
+      }
+      .toggle-input {
+        display: none;
+      }
+      .toggle-label {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 24px;
+        background-color: #ccc;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .toggle-label::before {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+      }
+      .toggle-input:checked + .toggle-label {
+        background-color: #5fcdfc;
+      }
+      .toggle-input:checked + .toggle-label::before {
+        transform: translateX(16px);
+      }
+
+      /* 상태창 컨테이너 (초기엔 숨김) */
+      .status-container {
+        display: none;
+        width: 250px;
+        height: 200px;
+        margin-top: 10px;
+      }
+
+      /* 블러 처리된 하늘색 박스 */
+      .status_background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.51;
+        background: #5fcdfc;
+        border-radius: 50px;
+        filter: blur(50px);
+        z-index: -1;
+      }
+
+      /* 실제 내용(스탯 게이지) */
+      .status-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      /* 스탯 게이지 바 스타일 */
+      .stat-row {
+        color: black;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 20px;
+        padding: 5px 10px;
+      }
+      .stat-label {
+        margin-right: 10px;
+        width: 70px;
+        text-align: center;
+      }
+      .stat-bar {
+        position: relative;
+        flex: 1;
+        border-radius: 20px;
+        border: 1px solid rgba(119, 178, 255, 0.363);
+        height: 20px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      .stat-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #5fcdfc;
+        border-radius: 20px;
+        transition: width 0.3s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- 결과 메시지 영역 -->
+      <div class="mail_context">
+        <div class="mail_context_bar"></div>
+        <div class="mail_context_text" id="resultText"></div>
+      </div>
+
+      <!-- 캐릭터 이미지 (합/불에 따라 교체) -->
+      <img
+        src="../image/man/남자_서류_합격표정.png"
+        class="person-image"
+        id="personImage"
+      />
+
+      <!-- 삼각형 버튼 -->
+      <div class="next-button" onclick="goNext()"></div>
+    </div>
+
+    <script>
+      // 1. 전형별 커트라인 정의
+      const cutlines = {
+        서류: {
+          외국어: 50,
+          개발능력: 50,
+        },
+        필기: {
+          코테실력: 60,
+          CS지식: 60,
+        },
+        "1차 면접": {
+          PT능력: 70,
+          CS지식: 70,
+        },
+        "2차 면접": {
+          개발능력: 80,
+          코테실력: 80,
+          CS지식: 80,
+          PT능력: 80,
+          외국어: 80,
+        },
+      };
+
+      // 2. 로컬 스토리지에서 데이터 불러오기
+      let step = localStorage.getItem("step");
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      const stats = userData?.stats || {};
+      const userName = userData?.name || "???";
+
+      // 3. 합격/불합격 판별
+      function checkPassFail(currentStep, userStats) {
+        const requiredStats = cutlines[currentStep];
+        if (!requiredStats) return false; // step이 없거나 잘못된 경우
+
+        for (const key in requiredStats) {
+          if ((userStats[key] || 0) < requiredStats[key]) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      const isPass = checkPassFail(step, stats);
+
+      // 4. 결과 메시지 & 캐릭터 이미지 설정
+      const resultTextEl = document.getElementById("resultText");
+      const personImageEl = document.getElementById("personImage");
+
+      if (isPass) {
+        // 합격
+        resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 합격을 축하드립니다!`;
+        personImageEl.src = "../image/man/남자_서류_합격표정.png";
+      } else {
+        // 불합격
+        resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 불합격!`;
+        personImageEl.src = "../image/man/남자_서류_탈락표정.png";
+      }
+
+      // 5. 다음 단계 이동 로직
+      const stepOrder = ["서류", "필기", "1차 면접", "2차 면접"];
+
+      function goNext() {
+        if (isPass) {
+          // 합격 시
+          if (step === "2차 면접") {
+            // 마지막 단계이면 최종 합격
+            window.location.href = "finalPass.html";
+            return;
+          }
+
+          // 다음 단계 계산
+          const currentIndex = stepOrder.indexOf(step);
+          const nextIndex = currentIndex + 1;
+          if (nextIndex < stepOrder.length) {
+            const nextStep = stepOrder[nextIndex];
+            localStorage.setItem("step", nextStep);
+
+            // ✅ 각 step에 따라 다른 페이지로 이동
+            let nextPage = "";
+            switch (step) {
+              case "서류":
+                nextPage = "26_resume_after_pass.html";
+                break;
+              case "필기":
+                nextPage = "29_before_interview1.html";
+                break;
+              case "1차 면접":
+                nextPage = "32_interview2.html";
+                break;
+            }
+
+            window.location.href = nextPage;
+          } else {
+            window.location.href = "finalPass.html"; // 최종 합격
+          }
+        } else {
+          // 불합격 시 -> 최종 탈락
+          window.location.href = "finalFail.html";
+        }
+      }
+    </script>
+  </body>
+</html>

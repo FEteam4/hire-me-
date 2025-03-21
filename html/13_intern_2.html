@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../index.css" />
+    <style>
+      /* 페이지 규격 , 폰트 */
+      .page {
+        position: relative;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-image: url("../image/background/활동_인턴.png");
+        background-size: auto 100%;
+        background-position: center;
+        overflow: hidden;
+        text-align: left;
+        color: rgba(0, 0, 0, 0);
+        font-family: "Gmarket Sans TTF";
+      }
+
+      /* 대기 화면 */
+      .background_wait {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 2560px;
+        height: 1440px;
+        object-fit: cover;
+      }
+      .text-container {
+        display: inline-block;
+        white-space: nowrap;
+        border-right: 2px solid violet; /* 타이핑 효과 */
+        padding-right: 5px;
+      }
+      .character {
+        position: absolute;
+        left: 535px;
+        top: 70%;
+        transform: translateY(-55%);
+        transition: all 0.8s ease;
+      }
+
+      .character img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .left_c {
+        position: absolute;
+        width: 30%;
+        height: 70%;
+        transform: translate(50px, -784px);
+      }
+      .right_c {
+        width: 30%;
+        height: 70%;
+        position: absolute;
+        transform: translate(1050px, -784px);
+      }
+      #option1 {
+        margin: 50px;
+        position: absolute;
+        font-size: 1.5rem;
+        z-index: 100;
+        color: white;
+        height: auto;
+        top: 50px;
+        left: 30px;
+      }
+      #option2 {
+        margin: 50px;
+        position: absolute;
+        font-size: 1.5rem;
+        z-index: 100;
+        color: white;
+        height: auto;
+        top: 50px;
+        left: 30px;
+      }
+      .option-container {
+        border: 2px solid transparent; /* 기본 테두리 없음 */
+        padding: 10px;
+        cursor: pointer;
+        transition: border 0.3s ease-in-out;
+      }
+
+      .option-container:hover {
+        border: 2px solid #007bff; /* 마우스를 올리면 파란색 테두리 */
+      }
+
+      .option-container.selected {
+        border: 2px solid #28a745; /* 클릭하면 초록색 테두리 */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page container">
+      <div class="small_chat_window"></div>
+      <div class="character" id="character">
+        <img src="../image/another/인턴_사람.png" />
+      </div>
+      <div class="left_c option-container">
+        <div class="aside_window"></div>
+        <div id="option1" class="option-container"></div>
+      </div>
+      <div class="right_c option-container">
+        <div class="aside_window"></div>
+        <div id="option2" class="option-container"></div>
+      </div>
+    </div>
+    <script src="../intern.js"></script>
+  </body>
+</html>
