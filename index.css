@@ -1,3 +1,123 @@
+.status-toggle-wrapper {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 50;
+  text-align: right;
+}
+/* 2) Flex 컨테이너 설정 */
+.toggle-container {
+  display: inline-flex; /* inline-flex로 한 줄에서 수평 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+  gap: 8px; /* 텍스트와 토글 사이 간격 */
+}
+
+/* 토글 텍스트 스타일 */
+.toggle-text {
+  font-size: 1.3rem;
+  color: white;
+  /* 필요 시 line-height, margin 조정 가능 */
+}
+
+/* 나머지 토글 스타일 (예시) */
+.toggle-switch {
+  display: inline-block;
+}
+.toggle-input {
+  display: none;
+}
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.toggle-label::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+.toggle-input:checked + .toggle-label {
+  background-color: #5fcdfc;
+}
+.toggle-input:checked + .toggle-label::before {
+  transform: translateX(16px);
+}
+
+/* 상태창 컨테이너 (초기엔 숨김) */
+.status-container {
+  display: none;
+  width: 250px;
+  height: 200px;
+  margin-top: 10px;
+}
+
+/* 블러 처리된 하늘색 박스 */
+.status_background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.51;
+  background: #5fcdfc;
+  border-radius: 50px;
+  filter: blur(50px);
+  z-index: -1;
+}
+
+/* 실제 내용(스탯 게이지) */
+.status-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* 스탯 게이지 바 스타일 */
+.stat-row {
+  color: black;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+.stat-label {
+  margin-right: 10px;
+  width: 70px;
+  text-align: center;
+}
+.stat-bar {
+  position: relative;
+  flex: 1;
+  border-radius: 20px;
+  border: 1px solid rgba(119, 178, 255, 0.363);
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.stat-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #5fcdfc;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
 /* 페이지 규격 , 폰트 */
 div.container {
   width: 1600px;

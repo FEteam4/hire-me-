@@ -92,6 +92,60 @@
         <div class="text_context" id="text"></div>
         <div class="button"></div>
       </div>
+    </div>
+    <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
+    <div class="status-toggle-wrapper">
+      <!-- 1) "상태창" 텍스트와 토글을 하나로 묶을 컨테이너 -->
+      <div class="toggle-container">
+        <span class="toggle-text">상태창</span>
+        <!-- 토글 스위치 -->
+        <div class="toggle-switch">
+          <input type="checkbox" class="toggle-input" id="toggle" />
+          <label class="toggle-label" for="toggle"></label>
+        </div>
+      </div>
+
+      <!-- 상태창 컨테이너 (토글에 의해 표시됨) -->
+      <div class="status-container">
+        <div class="status-content">
+          <div class="stat-row">
+            <span class="stat-label">개발능력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="dev-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">CS지식</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="cs-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">코테실력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="cote-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">PT능력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="pt-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">외국어</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="lang-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">건강</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="health-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- <div class="button_container">
         <div class="small_chat_window"></div>
         <div class="button_window">
@@ -130,6 +184,34 @@
 
       document.querySelector(".button").addEventListener("mousedown", () => {
         textTyper.showNextChar();
+      });
+
+      // 토글 상태 변화에 따라 상태창 표시 및 텍스트 업데이트
+      document.getElementById("toggle").addEventListener("change", function () {
+        const statusContainer = document.querySelector(".status-container");
+        const toggleText = document.getElementById("toggle-text");
+        if (this.checked) {
+          statusContainer.style.display = "block";
+        } else {
+          statusContainer.style.display = "none";
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const gameData = JSON.parse(localStorage.getItem("gameData"));
+        if (!gameData || !gameData.stats) return;
+        const dev = gameData.stats["개발능력"] ?? 0;
+        const cs = gameData.stats["CS지식"] ?? 0;
+        const cote = gameData.stats["코테실력"] ?? 0;
+        const pt = gameData.stats["PT능력"] ?? 0;
+        const lang = gameData.stats["외국어"] ?? 0;
+        const health = gameData.stats["건강"] ?? 0;
+        document.getElementById("dev-fill").style.width = dev + "%";
+        document.getElementById("cs-fill").style.width = cs + "%";
+        document.getElementById("cote-fill").style.width = cote + "%";
+        document.getElementById("pt-fill").style.width = pt + "%";
+        document.getElementById("lang-fill").style.width = lang + "%";
+        document.getElementById("health-fill").style.width = health + "%";
       });
       // // 버튼 클릭 시 다음 텍스트 출력
       // document.getElementById("showAllText").addEventListener("click", () => {
