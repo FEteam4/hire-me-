@@ -41,16 +41,22 @@ function displaySelectedData(selectedData) {
     firstDiv.innerHTML = `
         <h3>${selectedData[0].선지}</h3>
         <p>성공 확률: ${selectedData[0].확률 * 100}%</p>
-`;
+        <p>개발 : +${selectedData[0].개발} 코테 : +${
+      selectedData[0].코테
+    } CS : +${selectedData[0].CS} PT : +${selectedData[0].PT} 외국어 : +${
+      selectedData[0].외국어
+    } 건강 : +${selectedData[0].건강}</p>
+      `;
   }
   const secondDiv = document.getElementById("option2");
   if (secondDiv && selectedData[1]) {
     secondDiv.innerHTML = `
         <h3>${selectedData[1].선지}</h3>
         <p>성공 확률: ${selectedData[1].확률 * 100}%</p>
-`;
+      `;
   }
 }
+
 // 선택된 데이터를 미리 로컬 스토리지에 저장
 function saveToLocalStorage(selectedData) {
   if (selectedData.length >= 2) {
