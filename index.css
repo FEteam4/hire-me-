@@ -98,6 +98,7 @@
 .stat-label {
   margin-right: 10px;
   width: 70px;
+  font-size: 1.1rem;
   text-align: center;
 }
 .stat-bar {
