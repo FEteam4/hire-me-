@@ -41,13 +41,7 @@
         width: auto;
         height: 650px;
       }
-      @keyframes blink-effect {
-        50% {
-          opacity: 0;
-        }
-      }
       .next_button {
-        display: none;
         position: absolute;
         right: 20px;
         bottom: 80px;
@@ -55,10 +49,6 @@
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        animation: blink-effect 1s step-end infinite;
-      }
-      .next_button:hover {
-        animation: none;
       }
       @keyframes fadeIn {
         from {
@@ -69,66 +59,66 @@
         }
       }
 
-       /* ✅ 모달 스타일 */
-       .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            justify-content: center;
-            align-items: center;
-        }
+      /* ✅ 모달 스타일 */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
 
-        .modal-content {
-            background: white;
-            width: 550px;
-            max-width: 95%;
-            height: 480px;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-        }
+      .modal-content {
+        background: white;
+        width: 550px;
+        max-width: 95%;
+        height: 480px;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
 
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        .close-btn:hover {
-            background: darkred;
-        }
+      .close-btn:hover {
+        background: darkred;
+      }
 
-        /* ✅ iframe 스타일 (퀴즈 페이지 포함) */
-        .quiz-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+      /* ✅ iframe 스타일 (퀴즈 페이지 포함) */
+      .quiz-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <img src="../image/background/채용전형_1차면접.png" class="page" />
-    
+
       <div id="quizModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">닫기</button>
-            <iframe class="quiz-frame" src="31_quizgame.html"></iframe>
+          <button class="close-btn" onclick="closeModal()">닫기</button>
+          <iframe class="quiz-frame" src="31_quizgame.html"></iframe>
         </div>
       </div>
 
@@ -142,24 +132,28 @@
       </div>
     </div>
     <script>
-
       document.addEventListener("DOMContentLoaded", () => {
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const gender = userData.gender; // "남자" 또는 "여자"
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const gender = userData.gender; // "남자" 또는 "여자"
 
-          const folder = gender === "여자" ? "woman" : "man";
-          const fileName = `${gender}_면접.png`;
+        const folder = gender === "여자" ? "woman" : "man";
+        const fileName = `${gender}_면접.png`;
 
-          const img = document.getElementById("character");
-          img.src = `../image/${folder}/${fileName}`;
-        });
+        const img = document.getElementById("character");
+        img.src = `../image/${folder}/${fileName}`;
+      });
 
-      let index = 0;
-      const speed = 100;
+      const next_button = document.querySelector(".next_button");
+      const character_container = document.querySelector(
+        ".character_container"
+      );
+      const text_container = document.querySelector(".text_container");
+      const modal = document.querySelector(".modal");
+
+      const speed = 30;
 
       const show = async (text) => {
         const context = document.querySelector(".text_context");
-        let index = 0;
         context.innerHTML = "";
 
         for (const char of text) {
@@ -168,36 +162,28 @@
         }
       };
 
-      const next_button = document.querySelector(".next_button");
-      const character_container = document.querySelector(
-        ".character_container"
-      );
-      const text_container = document.querySelector(".text_container");
-      const modal = 
-      document.querySelector(".modal");
+      const openGame = () => {
+        text_container.style.display = "none";
+        character_container.style.display = "none";
+        openModal();
+      };
+
+      function openModal() {
+        document.getElementById("quizModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("quizModal").style.display = "none";
+        text_container.style.display = "block";
+      }
 
       document.addEventListener("DOMContentLoaded", () => {
         show("1차 면접을 시작합니다.").then(() => {
-          next_button.style.display = "block";
+          // next_button.style.display = "block";
         });
       });
-      
-      const openGame = () => {
-        text_container.style.display="none";
-        character_container.style.display="none";
-        openModal();
-      }
 
       next_button.addEventListener("mousedown", openGame);
-
-      function openModal() {
-            document.getElementById("quizModal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("quizModal").style.display = "none";
-            text_container.style.display = "block";
-        }
 
       // 지금은 모달 창 누르면 게임 끝이라 가정.
       modal.addEventListener("mousedown", () => {
@@ -206,11 +192,10 @@
           next_button.style.display = "block";
           next_button.removeEventListener("mousedown", openGame);
           next_button.addEventListener("mousedown", () => {
-          location.href = '24_email_toggle3.html';
+            location.href = "24_email_toggle3.html";
           });
         });
       });
-
     </script>
   </body>
 </html>
