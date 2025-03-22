@@ -192,9 +192,8 @@
     </div>
 
     <script>
- window.onload = function() {
 
-        document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", () => {
           const userData = JSON.parse(localStorage.getItem("userData"));
           const gender = userData.gender; // "남자" 또는 "여자"
 
@@ -204,13 +203,12 @@
           const img = document.getElementById("character");
           img.src = `../image/${folder}/${fileName}`;
         });
-}
 
-
-      // 페이지 로드 시 크레딧 내용 표시
       window.onload = function() {
+        // 두 번째 기능
         displayUserData();
       };
+
 
       // userData 표시 함수
       function displayUserData() {
