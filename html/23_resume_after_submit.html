@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../global.css" />
     <style>
       .text_container {
-        /* display: none; */
         position: absolute;
         width: 84%;
         height: 340px;
@@ -34,7 +33,6 @@
         filter: blur(29.35px);
       }
       .character_container {
-        /* display: none; */
         position: absolute;
         bottom: 0;
         left: 15%;
@@ -49,8 +47,6 @@
         }
       }
       .next_text_button,
-      .game_button,
-      .email_button,
       .next_page_button {
         position: absolute;
         right: 20px;
@@ -59,40 +55,12 @@
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        animation: blink-effect 1s step-end infinite;
         z-index: 300;
-      }
-      .next_button:hover,
-      .email_button:hover {
-        animation: none;
       }
       .next_text_button {
         display: block;
       }
-      .game_button {
-        display: none;
-      }
-      .email_button {
-        display: none;
-      }
       .next_page_button {
-        display: none;
-      }
-      .game_modal,
-      .email_modal {
-        position: absolute;
-        width: 800px;
-        height: 500px;
-        top: 20px;
-        left: 400px;
-        background-color: white;
-        border-radius: 20px;
-        z-index: 200;
-      }
-      .game_modal {
-        display: none;
-      }
-      .email_modal {
         display: none;
       }
     </style>
@@ -100,8 +68,6 @@
   <body class="page">
     <div class="container">
       <img src="../image/background/채용전형_서류화면.png" class="page" />
-      <div class="game_modal"></div>
-      <div class="email_modal"></div>
       <div class="character_container">
         <img id="character" class="character" />
       </div>
@@ -109,89 +75,78 @@
         <div class="chat_window"></div>
         <div class="text_context"></div>
         <div class="next_text_button"></div>
-        <div class="game_button"></div>
         <div class="next_page_button"></div>
-        <div class="email_button"></div>
       </div>
     </div>
     <script>
-
       document.addEventListener("DOMContentLoaded", () => {
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const gender = userData.gender; // "남자" 또는 "여자"
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const gender = userData.gender; // "남자" 또는 "여자"
 
-          const folder = gender === "여자" ? "woman" : "man";
-          const fileName = `${gender}_평소표정.png`;
+        const folder = gender === "여자" ? "woman" : "man";
+        const fileName = `${gender}_평소표정.png`;
 
-          const img = document.getElementById("character");
-          img.src = `../image/${folder}/${fileName}`;
-        });
-        
-      let speed = 50;
-      const show = async (text) => {
-        const context = document.querySelector(".text_context");
-        context.innerHTML = "";
-        for (const char of text) {
-          context.innerHTML += char;
-          await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-      };
+        const img = document.getElementById("character");
+        img.src = `../image/${folder}/${fileName}`;
+      });
 
       // 버튼 및 요소 참조
-      const email_button = document.querySelector(".email_button");
+      const context = document.querySelector(".text_context");
+      const next_page_button = document.querySelector(".next_page_button");
       const next_text_button = document.querySelector(".next_text_button");
-      const email_modal = document.querySelector(".email_modal");
       const text_container = document.querySelector(".text_container");
       const character_container = document.querySelector(
         ".character_container"
       );
-
-      let messages = [
+      const messages = [
         "서류 검토를 마쳤습니다. 지금 바로 서류를 제출하시겠습니까?",
         "...",
       ];
-      let currentIndex = 0;
 
-      const hideAllButtons = () => {
-        next_text_button.style.display = "none";
-        email_button.style.display = "none";
+      let speed = 30;
+      let currentIndex = 0;
+      let isTyping = false;
+      let typingAbort = false;
+
+      const show = async (text) => {
+        context.innerHTML = "";
+        isTyping = true;
+        typingAbort = false;
+
+        for (const char of text) {
+          if (typingAbort) {
+            context.innerHTML = text;
+            break;
+          }
+          context.innerHTML += char;
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+        isTyping = false;
       };
 
-      const showText = async () => {
+      const controlButton = async () => {
+        if (isTyping) {
+          typingAbort = true;
+          return;
+        }
         if (currentIndex >= messages.length) return;
 
-        hideAllButtons();
+        isTyping = true;
         await show(messages[currentIndex]);
-
-        if (currentIndex === messages.length - 1) {
-          email_button.style.display = "block";
-        } 
-        // else {
-          next_text_button.style.display = "block";
-        // }
         currentIndex++;
+
+        if (currentIndex == messages.length) {
+          next_page_button.style.display = "block";
+          next_text_button.style.display = "block";
+        }
       };
 
-      const closeModal = () => {
-        character_container.style.display = "block";
-        text_container.style.display = "block";
-        email_modal.style.display = "none";
-        next_text_button.style.display = "block";
-      };
-
-      email_button.addEventListener("mousedown", () => {
-        // email_modal.style.display = "block";
+      next_page_button.addEventListener("mousedown", () => {
         location.href = "24_email_toggle3.html";
       });
+      next_text_button.addEventListener("mousedown", controlButton);
 
-      email_modal.addEventListener("mousedown", () => {
-        closeModal();
-        // todo : 합격이면
-        location.href = "http://127.0.0.1:5500/main_repo/html/resume_after_pass.html";
-      });
-      next_text_button.addEventListener("mousedown", showText);
-
-      document.addEventListener("DOMContentLoaded", showText);
+      document.addEventListener("DOMContentLoaded", controlButton);
     </script>
   </body>
 </html>
