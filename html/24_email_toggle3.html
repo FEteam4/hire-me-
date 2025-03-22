@@ -21,12 +21,12 @@
         background-color: black;
       }
       .page {
-        position: relative;
+        /* position: relative;
         height: 100vh;
         background-repeat: no-repeat;
         background-image: url("../image/background/대기화면.png");
         background-size: auto 100%;
-        background-position: center;
+        background-position: center; */
         overflow: hidden;
         text-align: left;
         color: rgba(0, 0, 0, 0);
@@ -268,6 +268,8 @@
 
   <body>
     <div class="page container">
+      <img src="../image/background/대기화면.png">
+
       <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
       <div class="status-toggle-wrapper">
         <!-- 1) "상태창" 텍스트와 토글을 하나로 묶을 컨테이너 -->
@@ -331,7 +333,7 @@
 
       <!-- 캐릭터 이미지 -->
       <img
-        src="../image/man/남자_서류_이메일확인표정.png"
+        src="../image/man/남자_이메일확인.png"
         alt="이메일 확인 캐릭터"
         class="person-image"
       />

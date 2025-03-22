@@ -123,6 +123,7 @@ div.container {
   width: 1600px;
   margin: auto;
   font-family: "Gmarket Sans TTF";
+  font-size: 2.5rem;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);  
