@@ -466,7 +466,6 @@
       function startGame() {
         const name = document.getElementById("playerName").value.trim();
         if (!name) {
-          alert("이름을 입력하세요!");
 
           return;
         }
@@ -486,7 +485,6 @@
         };
 
         localStorage.setItem("userData", JSON.stringify(userData));
-        alert("사용자 정보가 저장되었습니다!");
         // ✅ 페이지 이동
         window.location.href = "02_start.html";
       }
