@@ -350,7 +350,7 @@ var workspace = Blockly.inject("blocklyDiv", {
   theme: theme,
   renderer: "zelos",
   zoom: {
-    startScale: 0.7,
+    startScale: 0.9,
   },
 });
 
@@ -390,7 +390,7 @@ const createStartBlock = () => {
   let startBlock = workspace.newBlock("start");
   startBlock.initSvg();
   startBlock.render();
-  startBlock.moveBy(50, 50);
+  startBlock.moveBy(10, 30);
   startBlock.setDeletable(false);
 };
 
