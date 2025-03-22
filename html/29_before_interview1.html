@@ -85,7 +85,7 @@
         img.src = `../image/${folder}/${fileName}`;
       });
 
-      const speed = 100;
+      const speed = 30;
       const next_button = document.querySelector(".next_button");
       const context = document.querySelector(".text_context");
       const messages = [
@@ -124,7 +124,7 @@
         isTyping = true;
         await show(messages[currentIndex]);
         currentIndex++;
-        
+
         if (currentIndex == messages.length) {
           next_button.removeEventListener("mousedown", this);
           next_button.addEventListener("mousedown", () => {
