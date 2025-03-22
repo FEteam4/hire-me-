@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="../global.css" />
     <style>
       .text_container {
-        /* display: none; */
         position: absolute;
         width: 84%;
         height: 340px;
@@ -35,7 +33,6 @@
         filter: blur(29.35px);
       }
       .character_container {
-        /* display: none; */
         position: absolute;
         bottom: 0;
         left: 15%;
@@ -51,7 +48,6 @@
       }
       .next_text_button,
       .game_button,
-      .email_button,
       .next_page_button {
         position: absolute;
         right: 20px;
@@ -60,12 +56,7 @@
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        animation: blink-effect 1s step-end infinite;
         z-index: 300;
-      }
-      .next_button:hover,
-      .email_button:hover {
-        animation: none;
       }
       .next_text_button {
         display: block;
@@ -73,14 +64,10 @@
       .game_button {
         display: none;
       }
-      .email_button {
-        display: none;
-      }
       .next_page_button {
         display: none;
       }
-      .modal_overlay,
-      .email_modal {
+      .modal_overlay {
         position: absolute;
         width: 800px;
         height: 500px;
@@ -93,68 +80,63 @@
       .modal_overlay {
         display: none;
       }
-      .email_modal {
-        display: none;
-      }
 
       /* 모달 스타일 */
       .modal_overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            display: none;
-        }
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        display: none;
+      }
 
-        .modal-content {
-            background: white;
-            width: 550px; /* 기존보다 더 넓게 */
-            max-width: 95%;
-            height: 580px; /* 기존보다 조금 줄이기 */
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-        }
+      .modal-content {
+        background: white;
+        width: 550px; /* 기존보다 더 넓게 */
+        max-width: 95%;
+        height: 580px; /* 기존보다 조금 줄이기 */
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
 
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
+      .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+      }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        } 
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
     </style>
   </head>
   <body class="page">
     <div class="container">
       <img src="../image/background/채용전형_서류화면.png" class="page" />
 
-        <!-- 모달 -->
-        <div id="gameModal" class="modal_overlay">
-          <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">✖</span>
-            <iframe id="gameFrame" src="./22_wordgame.html"></iframe>
-          </div>
+      <!-- 모달 -->
+      <div id="gameModal" class="modal_overlay">
+        <div class="modal-content">
+          <span class="modal-close" onclick="closeModal()">✖</span>
+          <iframe id="gameFrame" src="./22_wordgame.html"></iframe>
         </div>
-      
-      <div class="email_modal"></div>
+      </div>
       <div class="character_container">
         <img id="character" class="character" />
       </div>
@@ -164,45 +146,34 @@
         <div class="next_text_button"></div>
         <div class="game_button" onclick="openModal()"></div>
         <div class="next_page_button"></div>
-        <div class="email_button"></div>
       </div>
     </div>
     <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const gender = userData.gender; // "남자" 또는 "여자"
 
-        document.addEventListener("DOMContentLoaded", () => {
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const gender = userData.gender; // "남자" 또는 "여자"
+        const folder = gender === "여자" ? "woman" : "man";
+        const fileName = `${gender}_평소표정.png`;
 
-          const folder = gender === "여자" ? "woman" : "man";
-          const fileName = `${gender}_평소표정.png`;
+        const img = document.getElementById("character");
+        img.src = `../image/${folder}/${fileName}`;
+      });
 
-          const img = document.getElementById("character");
-          img.src = `../image/${folder}/${fileName}`;
-        });
+      function openModal() {
+        document.getElementById("gameModal").style.display = "flex";
+      }
 
-        function openModal() {
-            document.getElementById("gameModal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("gameModal").style.display = "none";
-            document.getElementById("gameFrame").contentWindow.location.reload(); // 게임 리셋
-        }
-
-      let speed = 1;
-      const show = async (text) => {
-        const context = document.querySelector(".text_context");
-        context.innerHTML = "";
-        for (const char of text) {
-          context.innerHTML += char;
-          await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-      };
+      function closeModal() {
+        document.getElementById("gameModal").style.display = "none";
+        document.getElementById("gameFrame").contentWindow.location.reload(); // 게임 리셋
+      }
 
       const game_button = document.querySelector(".game_button");
       const modal_overlay = document.querySelector(".modal_overlay");
       const next_text_button = document.querySelector(".next_text_button");
       const text_container = document.querySelector(".text_container");
+      const context = document.querySelector(".text_context");
       const character_container = document.querySelector(
         ".character_container"
       );
@@ -213,35 +184,60 @@
         "돌다리도 두드려 보고 건너야 합니다. 완성된 서류에 오탈자는 없을까요?",
         "다른 글자 게임을 시작합니다.",
       ];
+
+      let speed = 100;
+
       let currentIndex = 0;
+      let isTyping = false;
+      let typingAbort = false;
+
+      const show = async (text) => {
+        context.innerHTML = "";
+        isTyping = true;
+        typingAbort = false;
+
+        for (const char of text) {
+          if (typingAbort) {
+            context.innerHTML = text;
+            break;
+          }
+          context.innerHTML += char;
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+        isTyping = false;
+      };
+
 
       const showText = async () => {
+        if (isTyping) {
+          typingAbort = true;
+          return;
+        }
         if (currentIndex >= messages.length) return;
 
-        next_text_button.style.display = "none";
+        isTyping = true;
         await show(messages[currentIndex]);
-
-        if (currentIndex === messages.length - 1) {
-          game_button.style.display = "block";
-        } else {
-          next_text_button.style.display = "block";
-        }
         currentIndex++;
+
+        if (currentIndex === messages.length) {
+          next_text_button.style.display = "none";
+          game_button.style.display = "block";
+        }
       };
 
       modal_overlay.addEventListener("mousedown", async () => {
-        location.href = "23_resume_after_submit.html"
+        location.href = "23_resume_after_submit.html";
       });
 
-      game_button.addEventListener("mousedown", event => {
+      game_button.addEventListener("mousedown", (event) => {
         next_text_button.style.display = "none";
-        text_container.style.display ="none";
-        character_container.style.display ="none";
+        text_container.style.display = "none";
+        character_container.style.display = "none";
         openModal();
       });
 
-      next_text_button.addEventListener("mousedown", showText);
       document.addEventListener("DOMContentLoaded", showText);
+      next_text_button.addEventListener("mousedown", showText);
     </script>
   </body>
 </html>

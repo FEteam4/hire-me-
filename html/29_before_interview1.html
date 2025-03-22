@@ -124,10 +124,8 @@
         isTyping = true;
         await show(messages[currentIndex]);
         currentIndex++;
-
-        if (currentIndex < messages.length) {
-          next_button.style.display = "block";
-        } else {
+        
+        if (currentIndex == messages.length) {
           next_button.removeEventListener("mousedown", this);
           next_button.addEventListener("mousedown", () => {
             location.href = "30_interview1.html";
