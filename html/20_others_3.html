@@ -11,15 +11,9 @@
     <style>
       /* 페이지 규격 , 폰트 */
       .page {
-        /* position: relative;
-        height: 100vh;
-        background-repeat: no-repeat;
-        background-image: url("../image/background/활동_기타화면.png");
-        background-size: auto 100%;
-        background-position: center; */
         overflow: hidden;
         text-align: left;
-        color: rgba(0, 0, 0, 0);
+        /* color: rgba(0, 0, 0, 0); */
         font-family: "Gmarket Sans TTF";
       }
 
@@ -47,7 +41,7 @@
       }
 
       .character img {
-        width: 100%;
+        width: 140%;
         height: 100%;
         object-fit: contain;
       }
@@ -79,15 +73,14 @@
         font-size: 2.5rem;
       }
       .button {
-        /* display: none; */
         position: absolute;
         right: 20px;
-        bottom: -1px;
+        bottom: 48px;
         border-left: 30px solid white;
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        /* animation: blink-effect 1s step-end infinite; */
+        z-index: 300;
       }
     </style>
   </head>

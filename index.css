@@ -155,12 +155,12 @@ img.page {
   width: 100%;
   object-fit: cover;
 }
-.text_container{
-
+.text_container {
   position: absolute;
   width: 84%;
+  height: 340px;
   left: 6%;
-  bottom: 100px;
+  bottom: 50px;
 }
 .text_context {
   position: absolute;
@@ -177,6 +177,7 @@ img.page {
   box-shadow: 58px 58px 58px;
   border-radius: 40px; 
   filter: blur(29.35px);
+  z-index: 100;
 }
 .aside_window {
   height: 500px;
