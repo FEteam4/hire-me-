@@ -133,7 +133,7 @@
       </div>
 
       <div class="character_container">
-        <img src="../image/man/정장남자_대화1.png" class="character" />
+        <img id="character" class="character" />
       </div>
       <div class="text_container">
         <div class="chat_window"></div>
@@ -142,6 +142,18 @@
       </div>
     </div>
     <script>
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          const gender = userData.gender; // "남자" 또는 "여자"
+
+          const folder = gender === "여자" ? "woman" : "man";
+          const fileName = `${gender}_면접.png`;
+
+          const img = document.getElementById("character");
+          img.src = `../image/${folder}/${fileName}`;
+        });
+
       let index = 0;
       const speed = 100;
 

@@ -152,11 +152,8 @@
       />
 
       <!-- 캐릭터 (합격 표정) -->
-      <img
-        src="../image/man/남자_서류_합격표정.png"
-        alt="캐릭터"
-        class="character"
-      />
+      <img id="character" class="character" />
+
 
       <!-- 합격 문구 -->
       <!-- 왼쪽 선택지: step만 초기화 -->
@@ -226,6 +223,18 @@
     </div>
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          const gender = userData.gender; // "남자" 또는 "여자"
+
+          const folder = gender === "여자" ? "woman" : "man";
+          const fileName = `${gender}_최종합격.png`;
+
+          const img = document.getElementById("character");
+          img.src = `../image/${folder}/${fileName}`;
+        });
+
       // 로컬 스토리지에서 stats 불러오기
       const userData = JSON.parse(localStorage.getItem("userData")) || {};
       const stats = userData.stats || {
