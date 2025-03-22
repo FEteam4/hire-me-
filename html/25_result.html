@@ -237,11 +237,7 @@
       </div>
 
       <!-- 캐릭터 이미지 (합/불에 따라 교체) -->
-      <img
-        src="../image/man/남자_서류_합격표정.png"
-        class="person-image"
-        id="personImage"
-      />
+      <img id="personImage" class="person-image" />
 
       <!-- 삼각형 버튼 -->
       <div class="next-button" onclick="goNext()"></div>
@@ -296,15 +292,33 @@
       const resultTextEl = document.getElementById("resultText");
       const personImageEl = document.getElementById("personImage");
 
+      // if (isPass) {
+      //   // 합격
+      //   resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 합격을 축하드립니다!`;
+      //   personImageEl.src = "../image/man/남자_서류_합격표정.png";
+      // } else {
+      //   // 불합격
+      //   resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 불합격!`;
+      //   personImageEl.src = "../image/man/남자_서류_탈락표정.png";
+      // }
+
+      document.addEventListener("DOMContentLoaded", () => {
+      const userData = JSON.parse(localStorage.getItem("userData")); 
+      const gender = userData.gender; // "남자" 또는 "여자"
+      const folder = gender === "여자" ? "woman" : "man";
+
       if (isPass) {
         // 합격
-        resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 합격을 축하드립니다!`;
-        personImageEl.src = "../image/man/남자_서류_합격표정.png";
+        resultTextEl.innerText = `${userData.name}님,\n2025년도 ○○회사\n${step} 전형 합격을 축하드립니다!`;
+        personImageEl.src = `../image/${folder}/${gender}_서류_합격표정.png`;
       } else {
         // 불합격
-        resultTextEl.innerText = `${userName}님,\n2025년도 ○○회사\n${step} 전형 불합격!`;
-        personImageEl.src = "../image/man/남자_서류_탈락표정.png";
+        resultTextEl.innerText = `${userData.name}님,\n2025년도 ○○회사\n${step} 전형 불합격!`;
+        personImageEl.src = `../image/${folder}/${gender}_탈락표정.png`;
       }
+    });
+
+
 
       // 5. 다음 단계 이동 로직
       const stepOrder = ["서류", "필기", "1차 면접", "2차 면접"];
