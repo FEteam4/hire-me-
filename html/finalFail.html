@@ -50,72 +50,104 @@
         width: auto;
       }
 
-      /* 최종 탈락 메시지 (상단) */
-      .fail-message {
+      /* 중앙 컨테이너 */
+      .center-container {
         position: absolute;
-        top: 5%;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 3;
-        font-size: 2.4rem;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 20px 40px;
-        border-radius: 20px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      }
-
-      /* 좌우 선택지 박스 기본 스타일 */
-      .aside_window {
-        position: absolute;
-        width: 400px; /* 선택지 너비 (적절히 조절) */
-        height: 500px; /* 선택지 높이 */
-        background: rgba(0, 0, 0, 0.79);
-        box-shadow: 58px 58px 58px rgba(0, 0, 0, 0.5);
+        width: 800px; /* 넓은 너비 */
+        max-width: 90%; /* 모바일 대응 */
+        height: 500px; /* 고정된 높이 */
+        background: rgba(0, 0, 0, 0.85);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
         border-radius: 40px;
-        filter: blur(29.35px);
-        z-index: 3; /* 캐릭터(z-index:2) 위에 표시 */
-        cursor: pointer;
-      }
-      .choice-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      /* 왼쪽 선택지 */
-      .choice-left {
-        left: 10%;
-        top: 45%;
-        transform: translateY(-50%);
-      }
-      /* 오른쪽 선택지 */
-      .choice-right {
-        right: 10%;
-        top: 45%;
-        transform: translateY(-50%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        padding: 40px;
+        text-align: center;
+        box-sizing: border-box;
+        overflow: hidden; /* 내용이 넘치면 숨김 */
       }
 
-      /* 선택지 내부 텍스트 */
-      .text-left {
+      /* 스크롤 컨테이너 - 모든 내용을 담는 컨테이너 */
+      .scroll-container {
         position: absolute;
-        top: 45%;
-        left: 23%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 1.8rem;
-        text-align: center;
-        width: 350px;
-        z-index: 10;
+        width: 100%;
+        left: 0;
+        top: 0;
+        padding: 40px;
+        box-sizing: border-box;
+        animation: scrollCredits 10s linear forwards; /* 애니메이션 시간 조절 가능 */
       }
-      .text-right {
-        position: absolute;
-        top: 45%;
-        left: 77%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 1.8rem;
+
+      /* 스크롤 애니메이션 */
+      @keyframes scrollCredits {
+        0% {
+          transform: translateY(50%); /* 시작: 화면 밖 아래에서 */
+        }
+        100% {
+          transform: translateY(calc(-100% + 500px)); /* 마지막 부분이 보이게 */
+        }
+      }
+
+      /* 컨테이너 제목 */
+      .credits-title {
+        font-size: 2.4rem;
+        color: #ffd700;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      }
+
+      /* 크레딧 내용 */
+      .credit-item {
+        margin-bottom: 25px;
+        font-size: 1.4rem;
         text-align: center;
-        width: 350px;
-        z-index: 10;
+      }
+
+      .credit-key {
+        font-size: 1.6rem;
+        color: #8ff0ff;
+        margin-bottom: 5px;
+      }
+
+      .credit-value {
+        font-size: 1.8rem;
+      }
+
+      /* 스탯 아이템 스타일 */
+      .stat-item {
+        margin-bottom: 15px;
+        padding-left: 20px;
+      }
+
+      .stat-item .credit-key {
+        font-size: 1.4rem;
+        color: #8ff0ff;
+      }
+
+      /* 버튼 스타일 */
+      .action-button {
+        display: inline-block;
+        width: 200px;
+        height: 60px;
+        background: linear-gradient(to right, #ff5f6d, #ffc371);
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-size: 1.2rem;
+        font-family: "GmarketSansMedium";
+        cursor: pointer;
+        text-align: center;
+        line-height: 60px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin-top: 40px;
+      }
+
+      .action-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
       }
     </style>
   </head>
@@ -124,46 +156,119 @@
     <div class="page">
       <!-- 배경 이미지 -->
       <img
-        src="../image/background/채용실패화면.png"
+        src="../image/background/채용실패화면.gif"
         alt="배경"
         class="bg-image"
       />
 
       <!-- 캐릭터 (탈락 표정) -->
       <img
-        src="../image/man/남자_서류_탈락표정.png"
+        src="../image/man/남자_탈락표정.png"
         alt="캐릭터"
         class="character"
       />
 
-      <!-- 왼쪽 선택지: step만 초기화 -->
-      <div class="choice-container">
-        <div class="aside_window choice-left" onclick="goLeft()"></div>
-        <div class="text-left">다음 달 <br />채용공고 보러 가기</div>
-      </div>
-
-      <!-- 오른쪽 선택지: 로컬 스토리지 전체 초기화 -->
-      <div class="choice-container">
-        <div class="aside_window choice-right" onclick="goRight()"></div>
-        <div class="text-right">
-          로또 <br />
-          사러 가기
+      <!-- 중앙 컨테이너 -->
+      <div class="center-container" id="creditsContainer">
+        <div class="scroll-container" id="scrollContainer">
+          <div class="credits-title">당신의 취업 도전기</div>
+          <div id="creditsContent">
+            <!-- 여기에 userData 내용이 동적으로 추가됨 -->
+          </div>
+          <div class="action-button" onclick="restartGame()">처음으로 돌아가기</div>
         </div>
       </div>
     </div>
 
     <script>
-      // 왼쪽 선택지: step만 초기화하고, 전형 첫 화면(예: index.html)으로 이동
-      function goLeft() {
-        localStorage.removeItem("step"); // step만 삭제
-        // stats는 그대로 두므로 userData 건드리지 않음
-        window.location.href = "./21_resume_before_submit.html"; // 다시 전형 시작 화면 등으로 이동
+      // 페이지 로드 시 크레딧 내용 표시
+      window.onload = function() {
+        displayUserData();
+      };
+
+      // userData 표시 함수
+      function displayUserData() {
+        const creditsContent = document.getElementById('creditsContent');
+        
+        // userData 가져오기
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        
+        // userData가 비어있지 않은 경우
+        if (Object.keys(userData).length > 0) {
+          // userData의 각 키-값 쌍을 크레딧에 추가
+          for (const [key, value] of Object.entries(userData)) {
+            // stats 객체인 경우 특별 처리
+            if (key === 'stats' && typeof value === 'object' && value !== null) {
+              // stats 헤더 추가
+              const statsHeader = document.createElement('div');
+              statsHeader.className = 'credit-item';
+              statsHeader.innerHTML = `
+                <div class="credit-key">스탯</div>
+                <div class="credit-value"></div>
+              `;
+              creditsContent.appendChild(statsHeader);
+              
+              // stats 객체의 각 항목 표시
+              for (const [statKey, statValue] of Object.entries(value)) {
+                const statItem = document.createElement('div');
+                statItem.className = 'credit-item stat-item';
+                statItem.innerHTML = `
+                  <div class="credit-key">- ${statKey}</div>
+                  <div class="credit-value">${statValue}</div>
+                `;
+                if(indexI % 2 === 1){
+                creditsContent.appendChild(statItem);
+              }}
+              
+            } else {
+              // 일반 속성 표시
+              const creditItem = document.createElement('div');
+              creditItem.className = 'credit-item';
+              
+              // 키 이름을 보기 좋게 변환 (camelCase -> 공백으로 분리)
+              const formattedKey = key
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/^./, str => str.toUpperCase());
+              
+              creditItem.innerHTML = `
+                <div class="credit-key">${formattedKey}</div>
+                <div class="credit-value">${value}</div>
+              `;
+              
+              creditsContent.appendChild(creditItem);
+            }
+          }
+        } else {
+          // userData가 없는 경우 기본 메시지
+          const creditItem = document.createElement('div');
+          creditItem.className = 'credit-item';
+          creditItem.innerHTML = `
+            <div class="credit-key">플레이 기록이 없습니다</div>
+            <div class="credit-value">새로운 도전을 시작해보세요!</div>
+          `;
+          creditsContent.appendChild(creditItem);
+        }
+        
+        // 애니메이션 시간 조정
+        adjustAnimationDuration();
+      }
+      
+      // 컨텐츠 양에 따라 애니메이션 시간 조정
+      function adjustAnimationDuration() {
+        const contentElement = document.getElementById('scrollContainer');
+        const contentHeight = contentElement.scrollHeight;
+        const containerHeight = document.getElementById('creditsContainer').clientHeight;
+        
+        // 컨텐츠 높이에 비례하여 애니메이션 시간 설정 (최소 20초)
+        const duration = Math.max(20, contentHeight / 30); // 높이에 따라 속도 조절
+        
+        contentElement.style.animation = `scrollCredits ${duration}s linear forwards`;
       }
 
-      // 오른쪽 선택지: 로컬 스토리지 전부 초기화하고, 완전히 처음으로 이동
-      function goRight() {
+      // 게임 재시작 함수
+      function restartGame() {
         localStorage.clear(); // 전체 초기화
-        window.location.href = "01_firstpage.html"; // 완전히 처음 화면 등으로 이동
+        window.location.href = "01_firstpage.html"; // 완전히 처음 화면으로 이동
       }
     </script>
   </body>
