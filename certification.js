@@ -88,7 +88,7 @@ document.getElementById("toggle").addEventListener("change", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const gameData = JSON.parse(localStorage.getItem("gameData"));
+  const gameData = JSON.parse(localStorage.getItem("userData"));
   if (!gameData || !gameData.stats) return;
   const dev = gameData.stats["개발능력"] ?? 0;
   const cs = gameData.stats["CS지식"] ?? 0;

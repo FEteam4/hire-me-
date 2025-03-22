@@ -75,8 +75,7 @@
         <div class="text_context"></div>
         <div class="next_button" onclick="nextPage()"></div>
       </div>
-    </div>
-    <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
+      <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
     <div class="status-toggle-wrapper">
       <!-- 1) "상태창" 텍스트와 토글을 하나로 묶을 컨테이너 -->
       <div class="toggle-container">
@@ -129,6 +128,8 @@
           </div>
         </div>
       </div>
+    </div>
+    
     <script>
       let index = 0;
       const speed = 30;
@@ -185,7 +186,7 @@ document.getElementById("toggle").addEventListener("change", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const gameData = JSON.parse(localStorage.getItem("gameData"));
+  const gameData = JSON.parse(localStorage.getItem("userData"));
   if (!gameData || !gameData.stats) return;
   const dev = gameData.stats["개발능력"] ?? 0;
   const cs = gameData.stats["CS지식"] ?? 0;
