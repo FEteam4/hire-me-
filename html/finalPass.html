@@ -171,6 +171,16 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
       }
+
+      .fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+}
+
     </style>
   </head>
 
@@ -178,24 +188,20 @@
     <div class="page">
       <!-- 배경 이미지 -->
       <img
-        src="../image/background/채용성공화면.GIF"
+        src="../채용성공화면.gif"
         alt="배경"
         class="bg-image"
       />
 
       <!-- 성공 메시지 -->
-      <div class="success-message">취준 성공!</div>
-      <img
-        src="../image/man/남자_최종합격.png"
-        alt="캐릭터"
-        class="character"
-      />
+      <div class="success-message fade-in">취준 성공!🍀</div>
+    
       <!-- 캐릭터 (합격 표정) -->
-      <img id="character" class="character" />
+      <img id="character" class="character fade-in" />
 
 
       <!-- 중앙 컨테이너 -->
-      <div class="center-container" id="creditsContainer">
+      <div class="center-container fade-in" id="creditsContainer">
         <div class="scroll-container" id="scrollContainer">
           <div class="credits-title">당신의 취업 도전기</div>
           <div id="creditsContent">
@@ -207,10 +213,27 @@
     </div>
 
     <script>
- 
- window.onload = function() {
-        displayUserData();
-      };
+
+window.onload = function () {
+  setTimeout(() => {
+    // 캐릭터 이미지 설정
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const gender = userData.gender;
+    const folder = gender === "여자" ? "woman" : "man";
+    const fileName = `${gender}_최종합격.png`;
+    document.getElementById("character").src = `../image/${folder}/${fileName}`;
+
+    // fade-in 효과 주기 (숨겨진 요소들에 show 클래스 추가)
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.add('show');
+    });
+
+    // 크레딧 내용 표시 + 애니메이션
+    displayUserData();
+  }, 200); 
+};
+
+
 
       // userData 표시 함수
       function displayUserData() {
@@ -281,9 +304,7 @@
         creditsContent.appendChild(item);
       }
     }
-  }
-
-        
+  }    
         // 애니메이션 시간 조정
         adjustAnimationDuration();
       }
