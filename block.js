@@ -133,6 +133,9 @@ const toolbox = {
 Blockly.JavaScript.forBlock["start"] = () => 'console.log("start");';
 
 Blockly.JavaScript.forBlock["text"] = (block) => {
+  if (block.alreadyGenerated) return ["", Blockly.JavaScript.ORDER_ATOMIC];
+  block.alreadyGenerated = true;
+
   const text = block.getFieldValue("TEXT") || "";
   return [`"${text}"`, Blockly.JavaScript.ORDER_ATOMIC];
 };
@@ -429,6 +432,7 @@ function runCode() {
   }
 
   try {
+    console.log(code);
     eval(code);
   } catch (e) {
     outputBox.innerText += `${e.name}: ${e.message}\n`;
