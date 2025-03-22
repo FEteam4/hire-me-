@@ -1,5 +1,5 @@
 class TextTyper {
-    constructor(texts, nextPage, speed = 200) {
+    constructor(texts, nextPage, speed = 30) {
       this.texts = texts; // 표시할 텍스트 배열
       this.nextPage = nextPage; // 마지막에 이동할 페이지
       this.indexI = 0; // 현재 텍스트 인덱스
