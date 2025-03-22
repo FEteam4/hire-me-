@@ -206,6 +206,22 @@
       next_text_button.addEventListener("mousedown", controlButton);
 
       document.addEventListener("DOMContentLoaded", controlButton);
+      document.addEventListener("DOMContentLoaded", () => {
+        const gameData = JSON.parse(localStorage.getItem("userData"));
+        if (!gameData || !gameData.stats) return;
+        const dev = gameData.stats["개발능력"] ?? 0;
+        const cs = gameData.stats["CS지식"] ?? 0;
+        const cote = gameData.stats["코테실력"] ?? 0;
+        const pt = gameData.stats["PT능력"] ?? 0;
+        const lang = gameData.stats["외국어"] ?? 0;
+        const health = gameData.stats["건강"] ?? 0;
+        document.getElementById("dev-fill").style.width = dev + "%";
+        document.getElementById("cs-fill").style.width = cs + "%";
+        document.getElementById("cote-fill").style.width = cote + "%";
+        document.getElementById("pt-fill").style.width = pt + "%";
+        document.getElementById("lang-fill").style.width = lang + "%";
+        document.getElementById("health-fill").style.width = health + "%";
+      });
     </script>
   </body>
 </html>
