@@ -155,14 +155,12 @@
       const controlButton = async () => {
         if (currentIndex >= messages.length) return;
 
-        // next_button.style.display = "none";
         await show(messages[currentIndex]);
         currentIndex++;
 
-        // next_button.style.display = "block";
         if (currentIndex == messages.length) {
           next_button.removeEventListener("mousedown", controlButton);
-          console.log("대기화면으로 이동"); // todo : 대기화면으로 이동
+          console.log("대기화면으로 이동"); 
         }
       };
 

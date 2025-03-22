@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../global.css" />
     <style>
       .text_container {
-        /* display: none; */
         position: absolute;
         width: 84%;
         height: 340px;
@@ -17,7 +16,6 @@
       }
       .text_context {
         position: absolute;
-        font-size: 2rem;
         z-index: 100;
         color: white;
         left: 80px;
@@ -35,7 +33,6 @@
         filter: blur(29.35px);
       }
       .character_container {
-        /* display: none; */
         position: absolute;
         bottom: 0;
         left: 15%;
@@ -122,19 +119,6 @@
             height: 100%;
             border: none;
         }
-
-      /* .modal {
-        display: none;
-        position: absolute;
-        width: 800px;
-        height: 500px;
-        top: 20px;
-        left: 400px;
-        background-color: white;
-        border-radius: 20px;
-        z-index: 200;
-      } */ 
-
     </style>
   </head>
   <body>
@@ -185,19 +169,7 @@
           next_button.style.display = "block";
         });
       });
-
-      // const openModal = () => {
-      //   character_container.style.display = "none";
-      //   text_container.style.display = "none";
-      //   document.querySelector(".modal").style.display = "block";
-      // };
-
-      // const closeModal = () => {
-      //   character_container.style.display = "block";
-      //   text_container.style.display = "block";
-      //   document.querySelector(".modal").style.display = "none";
-      // };
-
+      
       const openGame = () => {
         text_container.style.display="none";
         character_container.style.display="none";

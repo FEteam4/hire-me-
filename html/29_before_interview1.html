@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../global.css" />
     <style>
       .text_container {
-        /* display: none; */
         position: absolute;
         width: 84%;
         height: 340px;
@@ -17,7 +16,6 @@
       }
       .text_context {
         position: absolute;
-        font-size: 2rem;
         z-index: 100;
         color: white;
         left: 80px;
@@ -35,7 +33,6 @@
         filter: blur(29.35px);
       }
       .character_container {
-        /* display: none; */
         position: absolute;
         bottom: 0;
         left: 15%;
@@ -50,7 +47,6 @@
         }
       }
       .next_button {
-        display: none;
         position: absolute;
         right: 20px;
         bottom: 80px;
@@ -58,11 +54,11 @@
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        animation: blink-effect 1s step-end infinite;
+        /* animation: blink-effect 1s step-end infinite; */
       }
-      .next_button:hover {
+      /* .next_button:hover {
         animation: none;
-      }
+      } */
     </style>
   </head>
   <body class="page">
@@ -78,43 +74,59 @@
       </div>
     </div>
     <script>
-      let index = 0;
       const speed = 100;
-
-      const show = async (text) => {
-        const context = document.querySelector(".text_context");
-        let index = 0;
-        context.innerHTML += "<br/>";
-
-        for (const char of text) {
-          context.innerHTML += char;
-          await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-      };
-
       const next_button = document.querySelector(".next_button");
-
+      const context = document.querySelector(".text_context");
       const messages = [
-        "합격 소식에 잠시 기쁨을 만끽했지만, 곧바로 다음 관문인 실무 면접을 위한 준비를 해야 합니다.", 
+        "합격 소식에 잠시 기쁨을 만끽했지만, 곧바로 다음 관문인 실무 면접을 위한 준비를 해야 합니다.",
         "포트폴리오를 마지막으로 점검하고, 내 코드의 모든 라인을 설명할 수 있게 되었습니다.",
         "청심환을 먹고 만반의 준비를 마쳤으니 이제 시작해 볼까요?",
       ];
-      let currentIndex = 0;
 
-      const controlButton = async () => {
-        next_button.style.display = "none";
-        await show(messages[0]);
-        currentIndex++;
-        await show(messages[1]);
-        return;
+      let currentIndex = 0;
+      let isTyping = false;
+      let typingAbort = false;
+
+      const show = async (text) => {
+        context.innerHTML = "";
+        isTyping = true;
+        typingAbort = false;
+
+        for (const char of text) {
+          if (typingAbort) {
+            context.innerHTML = text;
+            break;
+          }
+          context.innerHTML += char;
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+        isTyping = false;
       };
 
-      next_button.addEventListener(
-        "mousedown",
-        () =>
-          (location.href =
-            "30_interview1.html")
-      );
+      const controlButton = async () => {
+        if (isTyping) {
+          typingAbort = true;
+          return;
+        }
+        if (currentIndex >= messages.length) return;
+
+        isTyping = true;
+        await show(messages[currentIndex]);
+        currentIndex++;
+
+        if (currentIndex < messages.length) {
+          next_button.style.display = "block";
+        } else {
+          next_button.removeEventListener("mousedown", this);
+          next_button.addEventListener("mousedown", () => {
+            location.href = "30_interview1.html";
+          });
+          next_button.style.display = "block";
+        }
+      };
+
+      next_button.addEventListener("mousedown", controlButton);
+
       document.addEventListener("DOMContentLoaded", () => {
         controlButton();
         next_button.style.display = "block";
