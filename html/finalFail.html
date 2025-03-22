@@ -163,6 +163,15 @@
         text-align: center;
         width: 100%;
       }
+
+      .fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+}
     </style>
   </head>
 
@@ -174,13 +183,13 @@
         alt="배경"
         class="bg-image"
       />
-      <div class="fail-message">취준 실패</div>
+      <div class="fail-message fade-in">취준 실패</div>
       <!-- 캐릭터 (탈락 표정) -->
-      <img id="character" class="character" />
+      <img id="character" class="character fade-in" />
 
 
       <!-- 중앙 컨테이너 -->
-      <div class="center-container" id="creditsContainer">
+      <div class="center-container fade-in" id="creditsContainer">
         <div class="scroll-container" id="scrollContainer">
           <div class="credits-title">당신의 취업 도전기</div>
           <div id="creditsContent">
@@ -193,21 +202,24 @@
 
     <script>
 
-      document.addEventListener("DOMContentLoaded", () => {
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const gender = userData.gender; // "남자" 또는 "여자"
+window.onload = function () {
+  setTimeout(() => {
+    // 캐릭터 이미지 설정
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const gender = userData.gender;
+    const folder = gender === "여자" ? "woman" : "man";
+    const fileName = `${gender}_탈락표정.png`;
+    document.getElementById("character").src = `../image/${folder}/${fileName}`;
 
-          const folder = gender === "여자" ? "woman" : "man";
-          const fileName = `${gender}_탈락표정.png`;
+    // fade-in 효과 주기 (숨겨진 요소들에 show 클래스 추가)
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.add('show');
+    });
 
-          const img = document.getElementById("character");
-          img.src = `../image/${folder}/${fileName}`;
-        });
-
-      window.onload = function() {
-        // 두 번째 기능
-        displayUserData();
-      };
+    // 크레딧 내용 표시 + 애니메이션
+    displayUserData();
+  }, 200); 
+};
 
 
       // userData 표시 함수
@@ -281,7 +293,6 @@
     }
   }
 
-        
         // 애니메이션 시간 조정
         adjustAnimationDuration();
       }
@@ -293,7 +304,7 @@
         const containerHeight = document.getElementById('creditsContainer').clientHeight;
         
         // 컨텐츠 높이에 비례하여 애니메이션 시간 설정 (최소 20초)
-        const duration = Math.max(20, contentHeight / 30); // 높이에 따라 속도 조절
+        const duration = Math.max(10, contentHeight / 100); // 높이에 따라 속도 조절
         
         contentElement.style.animation = `scrollCredits ${duration}s linear forwards`;
       }
