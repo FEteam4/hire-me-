@@ -41,13 +41,7 @@
         width: auto;
         height: 650px;
       }
-      @keyframes blink-effect {
-        50% {
-          opacity: 0;
-        }
-      }
       .next_button {
-        display: none;
         position: absolute;
         right: 20px;
         bottom: 80px;
@@ -55,10 +49,6 @@
         border-top: 20px solid transparent;
         border-bottom: 20px solid transparent;
         cursor: pointer;
-        animation: blink-effect 1s step-end infinite;
-      }
-      .next_button:hover {
-        animation: none;
       }
     </style>
   </head>
@@ -75,24 +65,28 @@
       </div>
     </div>
     <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const gender = userData.gender; // "남자" 또는 "여자"
 
-        document.addEventListener("DOMContentLoaded", () => {
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const gender = userData.gender; // "남자" 또는 "여자"
+        const folder = gender === "여자" ? "woman" : "man";
+        const fileName = `${gender}_평소표정.png`;
 
-          const folder = gender === "여자" ? "woman" : "man";
-          const fileName = `${gender}_평소표정.png`;
+        const img = document.getElementById("character");
+        img.src = `../image/${folder}/${fileName}`;
+      });
 
-          const img = document.getElementById("character");
-          img.src = `../image/${folder}/${fileName}`;
-        });
+      const speed = 30;
+      const next_button = document.querySelector(".next_button");
+      const context = document.querySelector(".text_context");
+      const messages = [
+        // "다음 전형까지 2주 밖에 남지 않았습니다. 코테를 준비할 마지막 기회입니다.",
+        "필기 시험을 응시할 준비가 되셨나요? 코딩테스트를 시작합니다.",
+      ];
 
-      let index = 0;
-      const speed = 100;
+      let currentIndex = 0;
 
       const show = async (text) => {
-        const context = document.querySelector(".text_context");
-        let index = 0;
         context.innerHTML = "";
 
         for (const char of text) {
@@ -101,32 +95,22 @@
         }
       };
 
-      const next_button = document.querySelector(".next_button");
-
-      const messages = [
-        "필기 시험을 응시할 준비가 되셨나요? 코딩테스트를 시작합니다.",
-      ];
-      let currentIndex = 0;
-
-      const controlButton = async () => {
+      const showText = async () => {
         if (currentIndex >= messages.length) return;
 
-        next_button.style.display = "none";
         await show(messages[currentIndex]);
         currentIndex++;
 
-        next_button.style.display = "block";
         if (currentIndex == messages.length) {
-          reuturn;
+          return;
         }
       };
 
       next_button.addEventListener(
         "mousedown",
-        () =>
-          (location.href ="28_code_test_monitor.html")
+        () => (location.href = "28_code_test_monitor.html")
       );
-      document.addEventListener("DOMContentLoaded", controlButton);
+      document.addEventListener("DOMContentLoaded", showText);
     </script>
   </body>
 </html>
