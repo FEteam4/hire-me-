@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
     <script src="../textTyper.js"></script>
     <script src="../probability.js"></script>
     <style>
@@ -93,6 +94,60 @@
         <div class="chat_window"></div>
         <div class="text_context" id="text"></div>
         <div id="resultContainer"></div>
+      </div>
+    </div>
+
+    <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
+    <div class="status-toggle-wrapper">
+      <!-- 1) "상태창" 텍스트와 토글을 하나로 묶을 컨테이너 -->
+      <div class="toggle-container">
+        <span class="toggle-text">상태창</span>
+        <!-- 토글 스위치 -->
+        <div class="toggle-switch">
+          <input type="checkbox" class="toggle-input" id="toggle" />
+          <label class="toggle-label" for="toggle"></label>
+        </div>
+      </div>
+      <!-- 상태창 컨테이너 (토글에 의해 표시됨) -->
+      <div class="status-container">
+        <div class="status-content">
+          <div class="stat-row">
+            <span class="stat-label">개발능력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="dev-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">CS지식</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="cs-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">코테실력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="cote-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">PT능력</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="pt-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">외국어</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="lang-fill"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">건강</span>
+            <div class="stat-bar">
+              <div class="stat-fill" id="health-fill"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
