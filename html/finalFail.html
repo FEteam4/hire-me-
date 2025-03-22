@@ -149,6 +149,20 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
       }
+            .fail-message {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        font-size: 4rem;
+        color: #FFD700;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.5);
+        font-weight: bold;
+        animation: pulsate 2s infinite;
+        text-align: center;
+        width: 100%;
+      }
     </style>
   </head>
 
@@ -160,7 +174,7 @@
         alt="배경"
         class="bg-image"
       />
-
+      <div class="fail-message">취준 실패</div>
       <!-- 캐릭터 (탈락 표정) -->
       <img id="character" class="character" />
 
@@ -178,6 +192,7 @@
     </div>
 
     <script>
+ window.onload = function() {
 
         document.addEventListener("DOMContentLoaded", () => {
           const userData = JSON.parse(localStorage.getItem("userData"));
@@ -198,66 +213,75 @@
 
       // userData 표시 함수
       function displayUserData() {
-        const creditsContent = document.getElementById('creditsContent');
+  const creditsContent = document.getElementById('creditsContent');
+  
+  // userData 가져오기
+  const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  
+  // userData가 비어있지 않은 경우
+  if (Object.keys(userData).length > 0) {
+    // userData의 각 키-값 쌍을 크레딧에 추가
+    for (const [key, value] of Object.entries(userData)) {
+      // stats 객체인 경우 특별 처리
+      if (key === 'stats' && typeof value === 'object' && value !== null) {
+        // stats 헤더 추가
+        const statsHeader = document.createElement('div');
+        statsHeader.className = 'credit-item';
+        statsHeader.innerHTML = `
+          <div class="credit-key">Stats</div>
+          <div class="credit-value"></div>
+        `;
+        creditsContent.appendChild(statsHeader);
         
-        // userData 가져오기
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        // stats 항목들을 담을 배열 생성
+        const statEntries = Object.entries(value);
         
-        // userData가 비어있지 않은 경우
-        if (Object.keys(userData).length > 0) {
-          // userData의 각 키-값 쌍을 크레딧에 추가
-          for (const [key, value] of Object.entries(userData)) {
-            // stats 객체인 경우 특별 처리
-            if (key === 'stats' && typeof value === 'object' && value !== null) {
-              // stats 헤더 추가
-              const statsHeader = document.createElement('div');
-              statsHeader.className = 'credit-item';
-              statsHeader.innerHTML = `
-                <div class="credit-key">스탯</div>
-                <div class="credit-value"></div>
-              `;
-              creditsContent.appendChild(statsHeader);
-              
-              // stats 객체의 각 항목 표시
-              for (const [statKey, statValue] of Object.entries(value)) {
-                const statItem = document.createElement('div');
-                statItem.className = 'credit-item stat-item';
-                statItem.innerHTML = `
-                  <div class="credit-key">- ${statKey}</div>
-                  <div class="credit-value">${statValue}</div>
-                `;
-                if(indexI % 2 === 1){
-                creditsContent.appendChild(statItem);
-              }}
-              
-            } else {
-              // 일반 속성 표시
-              const creditItem = document.createElement('div');
-              creditItem.className = 'credit-item';
-              
-              // 키 이름을 보기 좋게 변환 (camelCase -> 공백으로 분리)
-              const formattedKey = key
-                .replace(/([A-Z])/g, ' $1')
-                .replace(/^./, str => str.toUpperCase());
-              
-              creditItem.innerHTML = `
-                <div class="credit-key">${formattedKey}</div>
-                <div class="credit-value">${value}</div>
-              `;
-              
-              creditsContent.appendChild(creditItem);
-            }
-          }
-        } else {
-          // userData가 없는 경우 기본 메시지
-          const creditItem = document.createElement('div');
-          creditItem.className = 'credit-item';
-          creditItem.innerHTML = `
-            <div class="credit-key">플레이 기록이 없습니다</div>
-            <div class="credit-value">새로운 도전을 시작해보세요!</div>
+        // 2개씩 묶어서 표시
+        for (let i = 0; i < statEntries.length; i += 2) {
+          // 행을 생성
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'stats-row';
+          rowDiv.style.display = 'flex';
+          rowDiv.style.justifyContent = 'space-between';
+          
+          // 첫 번째 항목 추가
+          const statItem1 = document.createElement('div');
+          statItem1.className = 'credit-item stat-item';
+          statItem1.style.width = '48%';
+          statItem1.innerHTML = `
+            <div class="credit-key">- ${statEntries[i][0]}</div>
+            <div class="credit-value">${statEntries[i][1]}</div>
           `;
-          creditsContent.appendChild(creditItem);
+          rowDiv.appendChild(statItem1);
+          
+          // 두 번째 항목이 있을 경우 추가
+          if (i + 1 < statEntries.length) {
+            const statItem2 = document.createElement('div');
+            statItem2.className = 'credit-item stat-item';
+            statItem2.style.width = '48%';
+            statItem2.innerHTML = `
+              <div class="credit-key">- ${statEntries[i+1][0]}</div>
+              <div class="credit-value">${statEntries[i+1][1]}</div>
+            `;
+            rowDiv.appendChild(statItem2);
+          }
+          
+          // 행을 creditsContent에 추가
+          creditsContent.appendChild(rowDiv);
         }
+      } else {
+        // 다른 일반 항목들 처리 (이 부분은 원래 코드에 없어서 추가했습니다)
+        const item = document.createElement('div');
+        item.className = 'credit-item';
+        item.innerHTML = `
+          <div class="credit-key">${key}</div>
+          <div class="credit-value">${value}</div>
+        `;
+        creditsContent.appendChild(item);
+      }
+    }
+  }
+
         
         // 애니메이션 시간 조정
         adjustAnimationDuration();
