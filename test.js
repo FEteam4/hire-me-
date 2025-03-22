@@ -92,8 +92,8 @@ function grade(quizIndex, userOutput, blockUsage) {
 
   result.correctOutput = userOutput.trim() === q.output.trim();
 
-  console.log("used : " + blockUsage);
-  console.log(`expected: ${userOutput.trim()}, real: ${q.output.trim()}`);
+  console.log(`used : ${blockUsage}`);
+  console.log(`expected : ${userOutput.trim()}, real : ${q.output.trim()}`);
   console.log(`result : ${result.correctOutput}}`);
 
   if (!result.correctOutput) {
@@ -130,18 +130,30 @@ function collectUsedBlocks() {
   return Array.from(blockTypes);
 }
 
-function playConfetti() {
-  for (let i = 0; i < 50; i++) {
-    const confetti = document.createElement("div");
-    confetti.classList.add("confetti");
-    confetti.style.left = `${Math.random() * 90}vw`;
-    confetti.style.top = `${Math.random() * 90}vh`;
-    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+const backdrop = document.querySelector(".modal-backdrop");
+const closeButton = document.querySelector(".close-button");
 
-    document.body.appendChild(confetti);
-    setTimeout(() => confetti.remove(), 1500);
+function openModal(success) {
+  const content = document.getElementById("modal-title");
+
+  if (success) {
+    content.innerText = "✅ 정답입니다!";
+  } else {
+    content.innerText = "❌ 오답입니다.";
   }
+
+  backdrop.classList.add("show");
+  document.querySelector(".blocklyWidgetDiv").style.display = "none";
 }
+
+function closeModal() {
+  backdrop.classList.remove("show");
+}
+
+closeButton.addEventListener("click", () => {
+  closeModal();
+  location.href = "24_email_toggle3.html";
+});
 
 document.querySelector("#submit").addEventListener("mousedown", () => {
   const userOutput = document.querySelector("#codeOutput").innerText;
@@ -149,11 +161,19 @@ document.querySelector("#submit").addEventListener("mousedown", () => {
   const result = grade(0, userOutput, collectUsedBlocks());
   console.log(result.message);
   if (result.correct) {
-    // 애니메니션 setTimeout(3000)
-    // 코테 +5
-  } else {
-    // 애니메니션 setTimeout(3000)
+    const userDataRaw = localStorage.getItem("userData");
+    const userData = JSON.parse(userDataRaw);
+    const stats = userData.stats;
+    stats["코테실력"] += 5;
+    stats["CS지식"] += 5;
+    if (stats["코테실력"] > 100) {
+      stats["코테실력"] = 100;
+    }
+    if (stats["CS지식"] > 100) {
+      stats["CS지식"] = 100;
+    }
+    userData.stats = stats;
+    localStorage.setItem("userData", JSON.stringify(userData));
   }
-
-  //   location.href = "24_email_toggle3.html";
+    setTimeout(() => openModal(result.correct), 1000);
 });
