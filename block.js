@@ -140,6 +140,8 @@ Blockly.JavaScript.forBlock["text"] = (block) => {
   return [`"${text}"`, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+let outputText = "";
+
 Blockly.JavaScript.forBlock["print"] = (block) => {
   const arg =
     Blockly.JavaScript.valueToCode(
@@ -147,8 +149,7 @@ Blockly.JavaScript.forBlock["print"] = (block) => {
       "ARG",
       Blockly.JavaScript.ORDER_ATOMIC
     ) || "''";
-
-  return `document.querySelector('#codeOutput').innerText += ${arg};\n`;
+    return `document.getElementById('codeOutput').innerText += ${arg};\n`;
 };
 
 // 조건문
@@ -406,16 +407,17 @@ const resetGenerationFlags = () => {
   });
 };
 
-const outputBox = document.querySelector("#codeOutput");
-
 // 코드 실행: startBlock과 연결된 블록들만 실행
 function runCode() {
   resetGenerationFlags(); // 실행 누를 때마다 새로 코드를 생성하여 실행.
+  const outputBox = document.querySelector("#codeOutput");
   const workspace = Blockly.getMainWorkspace();
-  let startBlock = workspace.getBlocksByType("start", false)[0];
+
+  outputBox.innerText = "";
+  console.log(outputBox);
 
   let code = "";
-  let currentBlock = startBlock.getNextBlock();
+  let currentBlock = workspace.getBlocksByType("start", false)[0];
 
   while (currentBlock) {
     try {
@@ -441,6 +443,5 @@ function runCode() {
 }
 
 document.getElementById("execute").addEventListener("click", () => {
-  outputBox.innerHTML = "";
   runCode();
 });

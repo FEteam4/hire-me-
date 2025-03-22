@@ -77,9 +77,10 @@ const quiz = [
 ];
 
 const panel = document.querySelector(".message");
-let randomId = Math.floor(Math.random() * 100) % 3;
+let randomId = Math.floor(Math.random() * 100) % 3; // FizzBuzz 문제는 시간상 제외.
 panel.innerText = `${quiz[randomId].problem}\n\n${quiz[randomId].output}`;
 
+// 채점하는 함수
 function grade(quizIndex, userOutput, blockUsage) {
   const q = quiz[quizIndex];
   const result = {
@@ -95,6 +96,19 @@ function grade(quizIndex, userOutput, blockUsage) {
   console.log(`used : ${blockUsage}`);
   console.log(`expected : ${userOutput.trim()}, real : ${q.output.trim()}`);
   console.log(`result : ${result.correctOutput}}`);
+
+  blockUsage.forEach((block) => {
+    if (
+      block === "controls_for" ||
+      block === "controls_repeat_ext" ||
+      block === "controls_whileUntil"
+    ) {
+      result.loopUsage = true;
+    }
+    if (block === "controls_if") {
+      result.ifUsage = true;
+    }
+  });
 
   if (!result.correctOutput) {
     result.message += "출력이 일치하지 않습니다.\n";
@@ -120,6 +134,7 @@ function grade(quizIndex, userOutput, blockUsage) {
   return result;
 }
 
+// 사용한 블록의 타입을 모으는 함수
 function collectUsedBlocks() {
   const blockTypes = new Set();
 
@@ -156,9 +171,10 @@ closeButton.addEventListener("click", () => {
 });
 
 document.querySelector("#submit").addEventListener("mousedown", () => {
-  const userOutput = document.querySelector("#codeOutput").innerText;
+  const userOutput = document.getElementById("codeOutput").innerText;
+  console.log(`real : ${userOutput}`);
 
-  const result = grade(0, userOutput, collectUsedBlocks());
+  const result = grade(randomId, userOutput, collectUsedBlocks());
   console.log(result.message);
   if (result.correct) {
     const userDataRaw = localStorage.getItem("userData");
@@ -175,5 +191,5 @@ document.querySelector("#submit").addEventListener("mousedown", () => {
     userData.stats = stats;
     localStorage.setItem("userData", JSON.stringify(userData));
   }
-    setTimeout(() => openModal(result.correct), 1000);
+  openModal(result.correct);
 });
