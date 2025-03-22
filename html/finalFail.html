@@ -170,17 +170,14 @@
     <div class="page">
       <!-- 배경 이미지 -->
       <img
-        src="../image/background/채용실패화면.gif"
+        src="../채용실패화면.gif"
         alt="배경"
         class="bg-image"
       />
       <div class="fail-message">취준 실패</div>
       <!-- 캐릭터 (탈락 표정) -->
-      <img
-        src="../image/man/남자_탈락표정.png"
-        alt="캐릭터"
-        class="character"
-      />
+      <img id="character" class="character" />
+
 
       <!-- 중앙 컨테이너 -->
       <div class="center-container" id="creditsContainer">
@@ -195,8 +192,22 @@
     </div>
 
     <script>
- 
  window.onload = function() {
+
+        document.addEventListener("DOMContentLoaded", () => {
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          const gender = userData.gender; // "남자" 또는 "여자"
+
+          const folder = gender === "여자" ? "woman" : "man";
+          const fileName = `${gender}_탈락표정.png`;
+
+          const img = document.getElementById("character");
+          img.src = `../image/${folder}/${fileName}`;
+        });
+
+
+      // 페이지 로드 시 크레딧 내용 표시
+      window.onload = function() {
         displayUserData();
       };
 

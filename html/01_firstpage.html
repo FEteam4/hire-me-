@@ -106,7 +106,7 @@
         background-image: url("../image/background/초기화면.png");
         background-size: auto 100%;
         background-position: center; */
-        background-image: url("../image/background/ba.gif");
+        background-image: url("../background.GIF");
         background-size: auto 100%;
         background-position: center;
         overflow: hidden;
@@ -121,7 +121,7 @@
         background-image: url("../image/background/초기화면.png");
         background-size: auto 100%;
         background-position: center; */
-        background-image: url("../image/background/ba.gif");
+        background-image: url("../background.GIF");
         background-size: auto 100%;
         background-position: center;
         overflow: hidden;
@@ -410,13 +410,13 @@
       </div>
 
       <img
-        src="../image/남자-Photoroom 2.png"
+        src="../image/woman/여자_시작.png"
         class="character left"
         id="female"
         onclick="selectCharacter('female')"
       />
       <img
-        src="../image/남자-Photoroom 2.png"
+        src="../image/man/남자_시작.png"
         class="character right"
         id="male"
         onclick="selectCharacter('male')"
@@ -448,7 +448,7 @@
       }
 
       function selectCharacter(gender) {
-        selectedGender = gender === "female" ? "여성" : "남성";
+        selectedGender = gender === "female" ? "여자" : "남자";
 
         document
           .getElementById("female")
@@ -466,7 +466,6 @@
       function startGame() {
         const name = document.getElementById("playerName").value.trim();
         if (!name) {
-          alert("이름을 입력하세요!");
 
           return;
         }
@@ -486,7 +485,6 @@
         };
 
         localStorage.setItem("userData", JSON.stringify(userData));
-        alert("사용자 정보가 저장되었습니다!");
         // ✅ 페이지 이동
         window.location.href = "02_start.html";
       }
