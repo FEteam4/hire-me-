@@ -102,7 +102,7 @@
         <div class="text_context" id="text"></div>
         <div id="resultContainer"></div>
       </div>
-      <div class="button"></div>
+      <div class="button" id="button"></div>
 
       <!-- 상태창 토글 버튼과 상태창 wrapper (우측 상단 고정) -->
     <div class="status-toggle-wrapper">
@@ -177,15 +177,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         textTyper.showText();
       });
-      // // 버튼 클릭 시 다음 텍스트 출력
-      // document.getElementById("showAllText").addEventListener("click", () => {
-      //   textTyper.showAllText();
-      // });
-
-      // // 버튼 클릭 시 다음 텍스트 출력
-      // document.getElementById("nextText").addEventListener("click", () => {
-      //   textTyper.showNextChar();
-      // });
+      
       const hidden_text = document.getElementById("text");
       setTimeout(() => {
         hidden_text.style.visibility = "hidden"; // 텍스트 다시 보이기
