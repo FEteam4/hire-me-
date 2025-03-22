@@ -350,7 +350,7 @@ var workspace = Blockly.inject("blocklyDiv", {
   theme: theme,
   renderer: "zelos",
   zoom: {
-    startScale: 0.7,
+    startScale: 0.8,
   },
 });
 
