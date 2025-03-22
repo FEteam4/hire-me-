@@ -59,11 +59,12 @@
         bottom: 10px;
       }
       #resultContainer {
+        color:white;
         position: absolute;
-        top: 50px;
-        left: 50px;
-        z-index: 200;
-        color: white;
+        width: 88%;
+        height: 290px;
+        left: 4.5%;
+        bottom: 30px;
       }
       h2 {
         font-size: 2.5rem;
@@ -167,7 +168,7 @@
       const hidden_text = document.getElementById("text");
       setTimeout(() => {
         hidden_text.style.visibility = "hidden"; // 텍스트 다시 보이기
-      }, 1000);
+      }, 700);
 
       document.querySelector(".button").addEventListener("mousedown", () => {
         textTyper.showNextChar();

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 결과를 페이지에 표시
 
-  setTimeout(() => displayResult(selectedOption, result), 1000);
+  setTimeout(() => displayResult(selectedOption, result), 700);
   
 });
 function clamp(value, min, max) {
