@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Final Fail</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
     <style>
       @font-face {
         font-family: "GmarketSansMedium";
@@ -13,30 +15,12 @@
         font-style: normal;
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "GmarketSansMedium";
-        background-color: black;
-        color: white;
-      }
-
       .page {
         position: relative;
-        width: 100%;
-        height: 100vh;
         overflow: hidden;
-      }
-
-      /* 배경 이미지 */
-      .bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
+        text-align: left;
+        /* color: rgba(0, 0, 0, 0); */
+        font-family: "Gmarket Sans TTF";
       }
 
       /* 캐릭터 */
@@ -176,12 +160,11 @@
   </head>
 
   <body>
-    <div class="page">
+    <div class="page container" >
       <!-- 배경 이미지 -->
       <img
         src="../image/background/채용실패화면.gif"
         alt="배경"
-        class="bg-image"
       />
       <div class="fail-message fade-in">취준 실패</div>
       <!-- 캐릭터 (탈락 표정) -->
