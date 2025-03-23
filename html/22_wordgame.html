@@ -184,6 +184,8 @@
         }, 1000);
       }
 
+      window.startCountdown = startCountdown; // ✅ 이 줄 추가!
+
       function startGame() {
         progressBar.style.display = "block";
         progress.style.width = "100%";
@@ -271,7 +273,7 @@
         }
       }
 
-      startCountdown();
+      // startCountdown();
     </script>
   </body>
 </html>
