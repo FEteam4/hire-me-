@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Final Fail</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
     <style>
       @font-face {
         font-family: "GmarketSansMedium";
@@ -13,30 +15,12 @@
         font-style: normal;
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "GmarketSansMedium";
-        background-color: black;
-        color: white;
-      }
-
       .page {
         position: relative;
-        width: 100%;
-        height: 100vh;
         overflow: hidden;
-      }
-
-      /* 배경 이미지 */
-      .bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
+        text-align: left;
+        /* color: rgba(0, 0, 0, 0); */
+        font-family: "Gmarket Sans TTF";
       }
 
       /* 캐릭터 */
@@ -149,27 +133,46 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
       }
+            .fail-message {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        font-size: 4rem;
+        color: #FFD700;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.5);
+        font-weight: bold;
+        animation: pulsate 2s infinite;
+        text-align: center;
+        width: 100%;
+      }
+
+      .fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+}
     </style>
   </head>
 
   <body>
-    <div class="page">
+    <div class="page container" >
       <!-- 배경 이미지 -->
       <img
         src="../image/background/채용실패화면.gif"
         alt="배경"
-        class="bg-image"
       />
-
+      <div class="fail-message fade-in">취준 실패</div>
       <!-- 캐릭터 (탈락 표정) -->
-      <img
-        src="../image/man/남자_탈락표정.png"
-        alt="캐릭터"
-        class="character"
-      />
+      <img id="character" class="character fade-in" />
+
 
       <!-- 중앙 컨테이너 -->
-      <div class="center-container" id="creditsContainer">
+      <div class="center-container fade-in" id="creditsContainer">
         <div class="scroll-container" id="scrollContainer">
           <div class="credits-title">당신의 취업 도전기</div>
           <div id="creditsContent">
@@ -181,74 +184,98 @@
     </div>
 
     <script>
-      // 페이지 로드 시 크레딧 내용 표시
-      window.onload = function() {
-        displayUserData();
-      };
+
+window.onload = function () {
+  setTimeout(() => {
+    // 캐릭터 이미지 설정
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const gender = userData.gender;
+    const folder = gender === "여자" ? "woman" : "man";
+    const fileName = `${gender}_탈락표정.png`;
+    document.getElementById("character").src = `../image/${folder}/${fileName}`;
+
+    // fade-in 효과 주기 (숨겨진 요소들에 show 클래스 추가)
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.add('show');
+    });
+
+    // 크레딧 내용 표시 + 애니메이션
+    displayUserData();
+  }, 200); 
+};
+
 
       // userData 표시 함수
       function displayUserData() {
-        const creditsContent = document.getElementById('creditsContent');
+  const creditsContent = document.getElementById('creditsContent');
+  
+  // userData 가져오기
+  const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  
+  // userData가 비어있지 않은 경우
+  if (Object.keys(userData).length > 0) {
+    // userData의 각 키-값 쌍을 크레딧에 추가
+    for (const [key, value] of Object.entries(userData)) {
+      // stats 객체인 경우 특별 처리
+      if (key === 'stats' && typeof value === 'object' && value !== null) {
+        // stats 헤더 추가
+        const statsHeader = document.createElement('div');
+        statsHeader.className = 'credit-item';
+        statsHeader.innerHTML = `
+          <div class="credit-key">Stats</div>
+          <div class="credit-value"></div>
+        `;
+        creditsContent.appendChild(statsHeader);
         
-        // userData 가져오기
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        // stats 항목들을 담을 배열 생성
+        const statEntries = Object.entries(value);
         
-        // userData가 비어있지 않은 경우
-        if (Object.keys(userData).length > 0) {
-          // userData의 각 키-값 쌍을 크레딧에 추가
-          for (const [key, value] of Object.entries(userData)) {
-            // stats 객체인 경우 특별 처리
-            if (key === 'stats' && typeof value === 'object' && value !== null) {
-              // stats 헤더 추가
-              const statsHeader = document.createElement('div');
-              statsHeader.className = 'credit-item';
-              statsHeader.innerHTML = `
-                <div class="credit-key">스탯</div>
-                <div class="credit-value"></div>
-              `;
-              creditsContent.appendChild(statsHeader);
-              
-              // stats 객체의 각 항목 표시
-              for (const [statKey, statValue] of Object.entries(value)) {
-                const statItem = document.createElement('div');
-                statItem.className = 'credit-item stat-item';
-                statItem.innerHTML = `
-                  <div class="credit-key">- ${statKey}</div>
-                  <div class="credit-value">${statValue}</div>
-                `;
-                if(indexI % 2 === 1){
-                creditsContent.appendChild(statItem);
-              }}
-              
-            } else {
-              // 일반 속성 표시
-              const creditItem = document.createElement('div');
-              creditItem.className = 'credit-item';
-              
-              // 키 이름을 보기 좋게 변환 (camelCase -> 공백으로 분리)
-              const formattedKey = key
-                .replace(/([A-Z])/g, ' $1')
-                .replace(/^./, str => str.toUpperCase());
-              
-              creditItem.innerHTML = `
-                <div class="credit-key">${formattedKey}</div>
-                <div class="credit-value">${value}</div>
-              `;
-              
-              creditsContent.appendChild(creditItem);
-            }
-          }
-        } else {
-          // userData가 없는 경우 기본 메시지
-          const creditItem = document.createElement('div');
-          creditItem.className = 'credit-item';
-          creditItem.innerHTML = `
-            <div class="credit-key">플레이 기록이 없습니다</div>
-            <div class="credit-value">새로운 도전을 시작해보세요!</div>
+        // 2개씩 묶어서 표시
+        for (let i = 0; i < statEntries.length; i += 2) {
+          // 행을 생성
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'stats-row';
+          rowDiv.style.display = 'flex';
+          rowDiv.style.justifyContent = 'space-between';
+          
+          // 첫 번째 항목 추가
+          const statItem1 = document.createElement('div');
+          statItem1.className = 'credit-item stat-item';
+          statItem1.style.width = '48%';
+          statItem1.innerHTML = `
+            <div class="credit-key">- ${statEntries[i][0]}</div>
+            <div class="credit-value">${statEntries[i][1]}</div>
           `;
-          creditsContent.appendChild(creditItem);
+          rowDiv.appendChild(statItem1);
+          
+          // 두 번째 항목이 있을 경우 추가
+          if (i + 1 < statEntries.length) {
+            const statItem2 = document.createElement('div');
+            statItem2.className = 'credit-item stat-item';
+            statItem2.style.width = '48%';
+            statItem2.innerHTML = `
+              <div class="credit-key">- ${statEntries[i+1][0]}</div>
+              <div class="credit-value">${statEntries[i+1][1]}</div>
+            `;
+            rowDiv.appendChild(statItem2);
+          }
+          
+          // 행을 creditsContent에 추가
+          creditsContent.appendChild(rowDiv);
         }
-        
+      } else {
+        // 다른 일반 항목들 처리 (이 부분은 원래 코드에 없어서 추가했습니다)
+        const item = document.createElement('div');
+        item.className = 'credit-item';
+        item.innerHTML = `
+          <div class="credit-key">${key}</div>
+          <div class="credit-value">${value}</div>
+        `;
+        creditsContent.appendChild(item);
+      }
+    }
+  }
+
         // 애니메이션 시간 조정
         adjustAnimationDuration();
       }
@@ -260,7 +287,7 @@
         const containerHeight = document.getElementById('creditsContainer').clientHeight;
         
         // 컨텐츠 높이에 비례하여 애니메이션 시간 설정 (최소 20초)
-        const duration = Math.max(20, contentHeight / 30); // 높이에 따라 속도 조절
+        const duration = Math.max(10, contentHeight / 100); // 높이에 따라 속도 조절
         
         contentElement.style.animation = `scrollCredits ${duration}s linear forwards`;
       }

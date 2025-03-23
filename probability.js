@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 결과를 페이지에 표시
 
-  setTimeout(() => displayResult(selectedOption, result), 2000);
+  setTimeout(() => displayResult(selectedOption, result), 700);
   
 });
 function clamp(value, min, max) {
@@ -59,12 +59,12 @@ function displayResult(data, result) {
   if (result === "성공") {
     updateStats(data);
     resultDiv.innerHTML = `
-      <h2>🎉 성공! 🎉</h2>
+      <h2>🎉 성공했습니다! 🎉</h2>
       <p>${data.성공}</p>
     `;
   } else {
     resultDiv.innerHTML = `
-      <h2>😞 실패... 😞</h2>
+      <h2>😞 실패했습니다... 😞</h2>
       <p>${data.실패}</p>
     `;
   }

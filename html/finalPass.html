@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./index.css" />
     <title>Final Pass</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
     <style>
       @font-face {
         font-family: "GmarketSansMedium";
@@ -14,249 +15,301 @@
         font-style: normal;
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "GmarketSansMedium";
-        background-color: black;
-        color: white;
-      }
-
       .page {
         position: relative;
-        width: 100%;
-        height: 100vh;
         overflow: hidden;
+        text-align: left;
+        /* color: rgba(0, 0, 0, 0); */
+        font-family: "Gmarket Sans TTF";
       }
 
-      /* 배경 이미지 (원하시면 교체) */
-      .bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-      }
-
+  
       /* 캐릭터 */
       .character {
         position: absolute;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 30;
-        height: 60vh; /* 필요에 따라 조절 */
+        z-index: 2;
+        height: 60vh; /* 캐릭터 크기 조절 */
         width: auto;
       }
-
-      /* 오른쪽 상태창 전체 컨테이너 */
-      .status-container {
+      
+      /* 성공 메시지 */
+      .success-message {
         position: absolute;
-        top: 10%;
-        right: 5%;
-        width: 300px; /* 전체 너비 (필요 시 조정) */
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        font-size: 4rem;
+        color: #FFD700;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.5);
+        font-weight: bold;
+        animation: pulsate 2s infinite;
+        text-align: center;
+        width: 100%;
+      }
+      
+      @keyframes pulsate {
+        0% { transform: translateX(-50%) scale(1); }
+        50% { transform: translateX(-50%) scale(1.1); }
+        100% { transform: translateX(-50%) scale(1); }
+      }
+
+      /* 중앙 컨테이너 */
+      .center-container {
+        position: absolute;
+        width: 800px; /* 넓은 너비 */
+        max-width: 90%; /* 모바일 대응 */
+        height: 500px; /* 고정된 높이 */
+        background: rgba(0, 0, 0, 0.85);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        border-radius: 40px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         z-index: 3;
-      }
-      /* 배경(블러) 효과 */
-      .status_background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 289px;
-        height: 246px;
-        opacity: 0.51;
-        background: #5fcdfc;
-        box-shadow: 100px 100px 100px;
-        border-radius: 50px;
-        filter: blur(50px);
-        z-index: -1; /* 그래프 뒤로 배치 */
+        padding: 40px;
+        text-align: center;
+        box-sizing: border-box;
+        overflow: hidden; /* 내용이 넘치면 숨김 */
       }
 
-      /* 각 스탯 항목 */
-      .stat-item {
-        position: relative;
-        margin-bottom: 40px; /* 항목 간 간격 */
+      /* 스크롤 컨테이너 - 모든 내용을 담는 컨테이너 */
+      .scroll-container {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        padding: 40px;
+        box-sizing: border-box;
+        animation: scrollCredits 10s linear forwards; /* 애니메이션 시간 조절 가능 */
       }
-      .stat-label {
-        font-size: 1.2rem;
+
+      /* 스크롤 애니메이션 */
+      @keyframes scrollCredits {
+        0% {
+          transform: translateY(50%); /* 시작: 화면 밖 아래에서 */
+        }
+        100% {
+          transform: translateY(calc(-100% + 500px)); /* 마지막 부분이 보이게 */
+        }
+      }
+
+      /* 컨테이너 제목 */
+      .credits-title {
+        font-size: 2.4rem;
+        color: #ffd700;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      }
+
+      /* 크레딧 내용 */
+      .credit-item {
+        margin-bottom: 25px;
+        font-size: 1.4rem;
+        text-align: center;
+      }
+
+      .credit-key {
+        font-size: 1.6rem;
+        color: #8ff0ff;
         margin-bottom: 5px;
       }
 
-      /* 큰 막대(배경) */
-      .status_big_bar {
-        position: relative; /* 내부 절대배치 위해 relative 사용 */
-        border-radius: 50px;
-        background-color: #fff;
-        border: 1px solid #5fcdfc;
-        width: 232px;
-        height: 29.3px;
+      .credit-value {
+        font-size: 1.8rem;
       }
 
-      /* 채워지는 막대 (동적으로 width 지정) */
-      .status_name_bar {
-        position: absolute;
-        top: 2.8px;
-        left: 3.49px;
-        border-radius: 50px;
-        background-color: rgba(95, 205, 252, 0.37);
-        height: 23.8px;
-        width: 0; /* JS에서 동적으로 설정 */
+      /* 스탯 아이템 스타일 */
+      .stat-item {
+        margin-bottom: 15px;
+        padding-left: 20px;
       }
-      /* 좌우 선택지 박스 기본 스타일 */
-      .aside_window {
-        position: absolute;
-        width: 400px; /* 선택지 너비 (적절히 조절) */
-        height: 400px; /* 선택지 높이 */
-        background: rgba(108, 211, 255, 0.7);
-        box-shadow: 100px 100px 100px;
-        border-radius: 40px;
-        filter: blur(29.35px);
-        z-index: 3; /* 캐릭터(z-index:2) 위에 표시 */
+
+      .stat-item .credit-key {
+        font-size: 1.4rem;
+        color: #8ff0ff;
+      }
+
+      /* 버튼 스타일 */
+      .action-button {
+        display: inline-block;
+        width: 200px;
+        height: 60px;
+        background: linear-gradient(to right, #ff5f6d, #ffc371);
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-size: 1.2rem;
+        font-family: "GmarketSansMedium";
         cursor: pointer;
-      }
-      .choice-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      /* 왼쪽 선택지 */
-      .choice-left {
-        left: 10%;
-        top: 45%;
-        transform: translateY(-50%);
-      }
-      /* 선택지 내부 텍스트 */
-      .text-left {
-        position: absolute;
-        top: 45%;
-        left: 23%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 1.8rem;
         text-align: center;
-        width: 350px;
-        z-index: 10;
+        line-height: 60px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin-top: 40px;
       }
+
+      .action-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+}
+
     </style>
   </head>
 
   <body>
-    <div class="page">
-      <!-- 배경 -->
+    <div class="page container">
+      <!-- 배경 이미지 -->
       <img
-        src="../image/background/채용성공화면.png"
+        src="../image/background/채용성공화면.gif"
         alt="배경"
-        class="bg-image"
       />
 
+      <!-- 성공 메시지 -->
+      <div class="success-message fade-in">취준 성공!🍀</div>
+    
       <!-- 캐릭터 (합격 표정) -->
-      <img
-        src="../image/man/남자_서류_합격표정.png"
-        alt="캐릭터"
-        class="character"
-      />
+      <img id="character" class="character fade-in" />
 
-      <!-- 합격 문구 -->
-      <!-- 왼쪽 선택지: step만 초기화 -->
-      <div class="choice-container">
-        <div class="aside_window choice-left"></div>
-        <div class="text-left">첫번째 시즌에<br />취업 성공!</div>
-      </div>
 
-      <!-- 오른쪽 상태창 -->
-      <div class="div102">
-        <div class="item"></div>
-        <div class="div103">
-          <div class="rectangle-parent">
-            <div class="group-inner"></div>
-            <div class="rectangle-div"></div>
-            <div class="group-child1"></div>
-            <div class="cs">cs 지식</div>
-            <div class="div104">80 / 100</div>
-            <div class="group-child2"></div>
+      <!-- 중앙 컨테이너 -->
+      <div class="center-container fade-in" id="creditsContainer">
+        <div class="scroll-container" id="scrollContainer">
+          <div class="credits-title">당신의 취업 도전기</div>
+          <div id="creditsContent">
+            <!-- 여기에 userData 내용이 동적으로 추가됨 -->
           </div>
-          <div class="group-parent">
-            <div class="rectangle-group">
-              <div class="group-inner"></div>
-              <div class="rectangle-div"></div>
-              <div class="group-child1"></div>
-            </div>
-            <div class="div105">건강</div>
-            <div class="group-child6"></div>
-            <div class="div104">48 / 100</div>
-          </div>
-          <div class="rectangle-container">
-            <div class="group-inner"></div>
-            <div class="rectangle-div"></div>
-            <div class="group-child1"></div>
-            <div class="div107">외국어</div>
-            <div class="group-child10"></div>
-            <div class="div104">63 / 100</div>
-          </div>
-          <div class="group-div">
-            <div class="group-inner"></div>
-            <div class="rectangle-div"></div>
-            <div class="group-child1"></div>
-            <div class="pt">PT 능력</div>
-            <div class="group-child14"></div>
-            <div class="div104">38 / 100</div>
-          </div>
-          <div class="rectangle-parent1">
-            <div class="group-inner"></div>
-            <div class="rectangle-div"></div>
-            <div class="group-child1"></div>
-            <div class="div110">코테 실력</div>
-            <div class="group-child6"></div>
-            <div class="div104">48 / 100</div>
-          </div>
-          <div class="rectangle-group">
-            <div class="rectangle-group">
-              <div class="group-inner"></div>
-              <div class="rectangle-div"></div>
-              <div class="group-child1"></div>
-            </div>
-            <div class="div110">개발 능력</div>
-            <div class="group-child6"></div>
-            <div class="div104">48 / 100</div>
-          </div>
+          <div class="action-button" onclick="restartGame()">처음으로 돌아가기</div>
         </div>
       </div>
     </div>
 
     <script>
-      // 로컬 스토리지에서 stats 불러오기
-      const userData = JSON.parse(localStorage.getItem("userData")) || {};
-      const stats = userData.stats || {
-        개발능력: 40,
-        코테실력: 50,
-        CS지식: 60,
-        PT능력: 70,
-        외국어: 80,
-        건강: 90,
-      };
 
-      // 각 막대 폭을 동적으로 설정
-      // 막대 최대 폭 = 232 - 3.49px*2(테두리 여백 고려) 정도이나,
-      // 여기서는 편의상 232px을 100으로 보고 비례
-      function fillBar(statValue, barElement) {
-        // 최대값 100 기준 비례
-        const max = 100;
-        const ratio = Math.min(statValue / max, 1); // 0~1 범위
-        const barWidth = 232 * ratio - 7; // 약간 여백 감안 (테두리)
-        barElement.style.width = barWidth + "px";
+window.onload = function () {
+  setTimeout(() => {
+    // 캐릭터 이미지 설정
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const gender = userData.gender;
+    const folder = gender === "여자" ? "woman" : "man";
+    const fileName = `${gender}_최종합격.png`;
+    document.getElementById("character").src = `../image/${folder}/${fileName}`;
+
+    // fade-in 효과 주기 (숨겨진 요소들에 show 클래스 추가)
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.add('show');
+    });
+
+    // 크레딧 내용 표시 + 애니메이션
+    displayUserData();
+  }, 200); 
+};
+
+
+
+      // userData 표시 함수
+      function displayUserData() {
+  const creditsContent = document.getElementById('creditsContent');
+  
+  // userData 가져오기
+  const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  
+  // userData가 비어있지 않은 경우
+  if (Object.keys(userData).length > 0) {
+    // userData의 각 키-값 쌍을 크레딧에 추가
+    for (const [key, value] of Object.entries(userData)) {
+      // stats 객체인 경우 특별 처리
+      if (key === 'stats' && typeof value === 'object' && value !== null) {
+        // stats 헤더 추가
+        const statsHeader = document.createElement('div');
+        statsHeader.className = 'credit-item';
+        statsHeader.innerHTML = `
+          <div class="credit-key">Stats</div>
+          <div class="credit-value"></div>
+        `;
+        creditsContent.appendChild(statsHeader);
+        
+        // stats 항목들을 담을 배열 생성
+        const statEntries = Object.entries(value);
+        
+        // 2개씩 묶어서 표시
+        for (let i = 0; i < statEntries.length; i += 2) {
+          // 행을 생성
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'stats-row';
+          rowDiv.style.display = 'flex';
+          rowDiv.style.justifyContent = 'space-between';
+          
+          // 첫 번째 항목 추가
+          const statItem1 = document.createElement('div');
+          statItem1.className = 'credit-item stat-item';
+          statItem1.style.width = '48%';
+          statItem1.innerHTML = `
+            <div class="credit-key">- ${statEntries[i][0]}</div>
+            <div class="credit-value">${statEntries[i][1]}</div>
+          `;
+          rowDiv.appendChild(statItem1);
+          
+          // 두 번째 항목이 있을 경우 추가
+          if (i + 1 < statEntries.length) {
+            const statItem2 = document.createElement('div');
+            statItem2.className = 'credit-item stat-item';
+            statItem2.style.width = '48%';
+            statItem2.innerHTML = `
+              <div class="credit-key">- ${statEntries[i+1][0]}</div>
+              <div class="credit-value">${statEntries[i+1][1]}</div>
+            `;
+            rowDiv.appendChild(statItem2);
+          }
+          
+          // 행을 creditsContent에 추가
+          creditsContent.appendChild(rowDiv);
+        }
+      } else {
+        // 다른 일반 항목들 처리 (이 부분은 원래 코드에 없어서 추가했습니다)
+        const item = document.createElement('div');
+        item.className = 'credit-item';
+        item.innerHTML = `
+          <div class="credit-key">${key}</div>
+          <div class="credit-value">${value}</div>
+        `;
+        creditsContent.appendChild(item);
+      }
+    }
+  }    
+        // 애니메이션 시간 조정
+        adjustAnimationDuration();
+      }
+      
+      // 컨텐츠 양에 따라 애니메이션 시간 조정
+      function adjustAnimationDuration() {
+        const contentElement = document.getElementById('scrollContainer');
+        const contentHeight = contentElement.scrollHeight;
+        const containerHeight = document.getElementById('creditsContainer').clientHeight;
+        
+        // 컨텐츠 높이에 비례하여 애니메이션 시간 설정 (최소 20초)
+        const duration = Math.max(10, contentHeight / 100); // 높이에 따라 속도 조절
+        
+        contentElement.style.animation = `scrollCredits ${duration}s linear forwards`;
       }
 
-      // DOM 로드 후 각 스탯의 막대를 채우기
-      document.addEventListener("DOMContentLoaded", () => {
-        fillBar(stats["개발능력"] || 0, document.getElementById("dev-bar"));
-        fillBar(stats["코테실력"] || 0, document.getElementById("test-bar"));
-        fillBar(stats["CS지식"] || 0, document.getElementById("cs-bar"));
-        fillBar(stats["PT능력"] || 0, document.getElementById("pt-bar"));
-        fillBar(stats["외국어"] || 0, document.getElementById("lang-bar"));
-        fillBar(stats["건강"] || 0, document.getElementById("health-bar"));
-      });
+      // 게임 재시작 함수
+      function restartGame() {
+        localStorage.clear(); // 전체 초기화
+        window.location.href = "01_firstpage.html"; // 완전히 처음 화면으로 이동
+      }
     </script>
   </body>
 </html>
