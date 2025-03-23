@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="../global.css" />
     <style>
       .page {
-        /* position: relative;
-        height: 100vh;
-        background-repeat: no-repeat;
-        background-image: url("../image/background/대기화면.png");
-        background-size: auto 100%;
-        background-position: center; */
         overflow: hidden;
         text-align: left;
         /* color: rgba(0, 0, 0, 0); */
@@ -231,7 +225,7 @@
           personImageEl.src = `../image/${folder}/${gender}_서류_합격표정.png`;
         } else {
           // 불합격
-          resultTextEl.innerText = `${userData.name}님,\n2025년도 하이어미 컴퍼니\n${step} 불합격!`;
+          resultTextEl.innerText = `${userData.name}님,\n2025년도 하이어미 컴퍼니\n${step} 불합격...`;
           personImageEl.src = `../image/${folder}/${gender}_탈락표정.png`;
         }
       });
