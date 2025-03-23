@@ -131,7 +131,7 @@
 div.container {
   width: 1600px;
   margin: auto;
-  font-family: "Gmarket Sans TTF";
+  font-family: "GmarketSansMedium";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);  
