@@ -210,9 +210,21 @@
       });
 
       function openModal() {
-        document.getElementById("gameModal").style.display = "flex";
-        setTimeout(startCountdown, 1000); // 100ms 후에 타이머 시작
-      }
+      document.getElementById("gameModal").style.display = "flex";
+
+      // iframe이 완전히 로드된 후에 안쪽 함수 호출
+      const iframe = document.getElementById("gameFrame");
+
+      iframe.onload = function () {
+        setTimeout(() => {
+          iframe.contentWindow.startCountdown(); // ✅ iframe 내부 함수 호출!
+        }, 100); // 살짝 지연
+      };
+
+      // 페이지를 다시 로드해서 항상 초기 상태로 만들기
+      iframe.src = iframe.src;
+    }
+
 
       function closeModal() {
         document.getElementById("gameModal").style.display = "none";
