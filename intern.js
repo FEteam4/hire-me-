@@ -1,4 +1,4 @@
-fetch("../json/exercise.json")
+fetch("../json/intern.json")
   .then((response) => response.json())
   .then((data) => {
     const selectedData = getSelectedData(data);
