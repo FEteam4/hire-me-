@@ -5,27 +5,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게임 시뮬레이션</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../global.css" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dongle:wght@700&family=Gugi&display=swap");
+      
       .responsive-gif {
         max-width: 100%;
         position: absolute;
         width: 100%;
         height: 100%;
-      }
-      .responsive-gif {
-        max-width: 100%;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      body {
-        font-family: "Gmarket Sans TTF";
-        margin: 0;
-        line-height: normal;
-        background-color: black;
       }
 
+      .page {
+        overflow: hidden;
+        text-align: left;
+        /* color: rgba(0, 0, 0, 0); */
+        font-family: "Gmarket Sans TTF";
+      }
 
       .text-wrap {
         width: 100%;
@@ -99,56 +96,15 @@
           stroke-dashoffset: 0px;
         }
       }
-      .page {
-        /* position: relative; */
-        /* height: 100vh; */
-        /* background-repeat: no-repeat;
-        background-image: url("../image/background/초기화면.png");
-        background-size: auto 100%;
-        background-position: center; */
-        background-image: url("../image/background/초기화면.gif");
-        background-size: auto 100%;
-        background-position: center;
-        overflow: hidden;
-        text-align: left;
-        color: white;
-        font-family: "Gmarket Sans TTF";
-      }
-      #gif_bg {
-        /* position: relative; */
-        height: 100vh;
-        /* background-repeat: no-repeat;
-        background-image: url("../image/background/초기화면.png");
-        background-size: auto 100%;
-        background-position: center; */
-        background-image: url("../image/background/초기화면.gif");
-        background-size: auto 100%;
-        background-position: center;
-        overflow: hidden;
-        text-align: left;
-        color: white;
-        font-family: "Gmarket Sans TTF";
-      }
 
-      div.container {
-        width: 1600px;
-        margin: auto;
-        font-family: "Gmarket Sans TTF";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      .background_wait {
+      /* .background_wait {
         position: absolute;
         top: 0px;
         left: 0px;
         width: 2560px;
         height: 1440px;
         object-fit: cover;
-      }
+      } */
 
       @keyframes blink {
         0%,
@@ -387,8 +343,8 @@
     </style>
   </head>
   <body onclick="startIntro()">
-    <div class="page container" id="gif_bg">
-      <div class="background_wait"></div>
+    <div class="page container">
+      <img src="../image/background/초기화면.gif" />
       <div class="text-wrap" id="title">
         <svg width="850" height="230" viewBox="0 0 850 230">
           <text x="0" y="50%">H</text>
